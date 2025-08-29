@@ -23,6 +23,72 @@ function toggleSettings(e) {
     panel.classList.toggle('show');
 }
 
+// 主题切换：Dark / Light
+(function () {
+    const THEME_KEY = 'decotv.theme';
+
+    function applyTheme(theme) {
+        const root = document.documentElement;
+        if (theme === 'light') {
+            root.classList.add('theme-light');
+        } else {
+            root.classList.remove('theme-light');
+        }
+    }
+
+    function getPreferredTheme() {
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved) return saved;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? 'dark' : 'light';
+    }
+
+    function setTheme(theme) {
+        localStorage.setItem(THEME_KEY, theme);
+        applyTheme(theme);
+    }
+
+    function injectToggle() {
+        const settingsPanel = document.getElementById('settingsPanel');
+        if (!settingsPanel) return;
+        if (settingsPanel.querySelector('#themeToggleRow')) return;
+
+        const container = document.createElement('div');
+        container.id = 'themeToggleRow';
+        container.className = 'p-3 bg-[#151515] rounded-lg shadow-inner mt-3';
+        container.innerHTML = `
+            <label class="block text-sm font-medium text-gray-400 mb-3 border-b border-[#333] pb-1">主题</label>
+            <div class="flex items-center justify-between">
+                <div>
+                    <label class="text-sm font-medium text-gray-400">外观模式</label>
+                    <p class="text-xs text-gray-500 mt-1">切换暗夜 / 白天模式</p>
+                </div>
+                <div class="relative inline-block w-12 align-middle select-none">
+                    <input type="checkbox" id="themeToggle" class="opacity-0 absolute w-full h-full cursor-pointer z-10">
+                    <div class="toggle-bg bg-[#333] w-12 h-6 rounded-full transition-colors duration-300 ease-in-out"></div>
+                    <div class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out"></div>
+                </div>
+            </div>
+        `;
+        settingsPanel.querySelector('.space-y-5')?.appendChild(container);
+
+        const toggle = container.querySelector('#themeToggle');
+        const current = getPreferredTheme();
+        toggle.checked = current === 'dark' ? true : false;
+        applyTheme(current);
+
+        toggle.addEventListener('change', () => {
+            setTheme(toggle.checked ? 'dark' : 'light');
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', injectToggle);
+    } else {
+        injectToggle();
+    }
+})();
+
 // 改进的Toast显示函数 - 支持队列显示多个Toast
 const toastQueue = [];
 let isShowingToast = false;
