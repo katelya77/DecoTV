@@ -131,6 +131,15 @@ button, .card-hover {
     -webkit-text-fill-color: transparent;
 }
 
+/* Logo 霓虹律动效果 */
+@keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 6px rgba(0,204,255,0.4), 0 0 18px rgba(255,60,120,0.15); filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
+    50% { text-shadow: 0 0 10px rgba(0,204,255,0.7), 0 0 28px rgba(255,60,120,0.35); filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35)); }
+}
+.logo-pulse {
+    animation: glowPulse 2.8s ease-in-out infinite;
+}
+
 /* 改进设置面板样式 */
 .settings-panel {
     scrollbar-width: thin;
