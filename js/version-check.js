@@ -37,8 +37,8 @@ async function checkForUpdates() {
         // 获取最新版本
         let latestVersion;
         const VERSION_URL = {
-            PROXY: 'https://ghfast.top/raw.githubusercontent.com/LibreSpark/LibreTV/main/VERSION.txt',
-            DIRECT: 'https://raw.githubusercontent.com/LibreSpark/LibreTV/main/VERSION.txt'
+            PROXY: 'https://ghfast.top/raw.githubusercontent.com/your-user/DecoTV/main/VERSION.txt',
+            DIRECT: 'https://raw.githubusercontent.com/your-user/DecoTV/main/VERSION.txt'
         };
         const FETCH_TIMEOUT = 1500;
         
@@ -148,7 +148,7 @@ function addVersionInfoToFooter() {
                 const updateBtn = versionElement.querySelector('span');
                 if (updateBtn) {
                     updateBtn.addEventListener('click', () => {
-                        window.open('https://github.com/LibreSpark/LibreTV', '_blank');
+                        window.open('https://github.com/your-user/DecoTV', '_blank');
                     });
                 }
             }, 100);
