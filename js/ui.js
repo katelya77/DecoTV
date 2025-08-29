@@ -69,6 +69,11 @@ function toggleSettings(e) {
                     <div class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out"></div>
                 </div>
             </div>
+            <div class="mt-4">
+                <label class="text-xs text-gray-400">主题主色</label>
+                <input id="themeColorPicker" type="color" value="#00ccff" class="ml-2 align-middle">
+                <button id="themeColorReset" class="ml-3 px-2 py-1 text-xs btn-neon rounded">重置</button>
+            </div>
         `;
         settingsPanel.querySelector('.space-y-5')?.appendChild(container);
 
@@ -80,6 +85,51 @@ function toggleSettings(e) {
         toggle.addEventListener('change', () => {
             setTheme(toggle.checked ? 'dark' : 'light');
         });
+
+        // Theme color picker
+        const picker = container.querySelector('#themeColorPicker');
+        const resetBtn = container.querySelector('#themeColorReset');
+        const saved = localStorage.getItem('decotv.themeColor');
+        if (saved) {
+            picker.value = saved;
+            setPrimaryColor(saved);
+        }
+        picker.addEventListener('input', () => {
+            localStorage.setItem('decotv.themeColor', picker.value);
+            setPrimaryColor(picker.value);
+        });
+        resetBtn.addEventListener('click', () => {
+            localStorage.removeItem('decotv.themeColor');
+            setPrimaryColor('#00ccff');
+            picker.value = '#00ccff';
+        });
+    }
+
+    function setPrimaryColor(hex) {
+        const root = document.documentElement;
+        root.style.setProperty('--primary-color', hex);
+        const light = lighten(hex, 14);
+        root.style.setProperty('--primary-light', light);
+        root.style.setProperty('--card-hover-border', toRgba(hex, 0.45));
+        root.style.setProperty('--border-color', toRgba(hex, 0.18));
+    }
+
+    function toRgba(hex, alpha) {
+        const { r, g, b } = hexToRgb(hex);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+    function hexToRgb(hex) {
+        let c = hex.replace('#','');
+        if (c.length === 3) c = c.split('').map(x=>x+x).join('');
+        const num = parseInt(c, 16);
+        return { r: (num>>16)&255, g: (num>>8)&255, b: num&255 };
+    }
+    function lighten(hex, percent) {
+        const { r, g, b } = hexToRgb(hex);
+        const lr = Math.min(255, Math.floor(r + (255 - r) * percent / 100));
+        const lg = Math.min(255, Math.floor(g + (255 - g) * percent / 100));
+        const lb = Math.min(255, Math.floor(b + (255 - b) * percent / 100));
+        return `#${((1<<24) + (lr<<16) + (lg<<8) + lb).toString(16).slice(1)}`;
     }
 
     if (document.readyState === 'loading') {
@@ -87,6 +137,44 @@ function toggleSettings(e) {
     } else {
         injectToggle();
     }
+})();
+
+// Brand auto-switch (logo/icon) for dark/light
+(function(){
+    function updateBrand() {
+        const isLight = document.documentElement.classList.contains('theme-light');
+        const logoImgs = document.querySelectorAll('img[alt*="Logo"], img.logo');
+        logoImgs.forEach(img => {
+            const darkSrc = img.getAttribute('data-dark') || img.getAttribute('src');
+            const lightSrc = img.getAttribute('data-light') || darkSrc;
+            img.setAttribute('src', isLight ? (lightSrc || darkSrc) : darkSrc);
+        });
+    }
+    const mo = new MutationObserver(updateBrand);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    document.addEventListener('DOMContentLoaded', updateBrand);
+})();
+
+// Ripple helper: attach to elements with class 'ripple-btn'
+(function(){
+    function addRipple(e){
+        const target = e.currentTarget;
+        const rect = target.getBoundingClientRect();
+        const span = document.createElement('span');
+        span.className = 'ripple';
+        const size = Math.max(rect.width, rect.height);
+        span.style.width = span.style.height = size + 'px';
+        span.style.left = (e.clientX - rect.left - size/2) + 'px';
+        span.style.top = (e.clientY - rect.top - size/2) + 'px';
+        target.appendChild(span);
+        setTimeout(()=> span.remove(), 650);
+    }
+    function init(){
+        document.querySelectorAll('.ripple-btn').forEach(el => {
+            el.addEventListener('click', addRipple);
+        });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 
 // 改进的Toast显示函数 - 支持队列显示多个Toast

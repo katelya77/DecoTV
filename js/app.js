@@ -798,6 +798,9 @@ async function search() {
         }).join('');
 
         resultsDiv.innerHTML = safeResults;
+
+        // Infinite scroll: lazy load more on scroll
+        setupInfiniteScroll(allResults);
     } catch (error) {
         console.error('搜索错误:', error);
         if (error.name === 'AbortError') {
@@ -808,6 +811,58 @@ async function search() {
     } finally {
         hideLoading();
     }
+}
+
+// Infinite scroll implementation using sentinel
+let _infiniteState = { list: [], rendered: 0 };
+function setupInfiniteScroll(all) {
+    _infiniteState.list = all;
+    _infiniteState.rendered = 0;
+    const resultsDiv = document.getElementById('results');
+    if (!resultsDiv) return;
+    resultsDiv.innerHTML = '';
+    const batch = 24;
+    function renderMore() {
+        const slice = _infiniteState.list.slice(_infiniteState.rendered, _infiniteState.rendered + batch);
+        if (!slice.length) return;
+        const html = slice.map(item => {
+            const safeId = (item.vod_id||'').toString().replace(/[^\w-]/g,'');
+            const safeName = (item.vod_name||'').toString().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            const sourceCode = item.source_code || '';
+            const hasCover = item.vod_pic && item.vod_pic.startsWith('http');
+            const apiUrlAttr = item.api_url ? `data-api-url="${item.api_url.replace(/"/g,'&quot;')}"` : '';
+            return `
+            <div class="card-hover glass-card rounded-lg overflow-hidden cursor-pointer transition-all hover:scale-[1.02] h-full shadow-sm hover:shadow-md reveal-on-scroll" onclick="showDetails('${safeId}','${safeName}','${sourceCode}')" ${apiUrlAttr}>
+                <div class="flex h-full">
+                    ${hasCover ? `<div class=\"relative flex-shrink-0 search-card-img-container\"><img src=\"${item.vod_pic}\" alt=\"${safeName}\" class=\"h-full w-full object-cover transition-transform hover:scale-110\" loading=\"lazy\" onerror=\"this.onerror=null; this.src='https://via.placeholder.com/300x450?text=无封面'; this.classList.add('object-contain');\"><div class=\"absolute inset-0 bg-gradient-to-r from-black/30 to-transparent\"></div></div>` : ''}
+                    <div class="p-2 flex flex-col flex-grow">
+                        <div class="flex-grow">
+                            <h3 class="font-semibold mb-2 break-words line-clamp-2 ${hasCover ? '' : 'text-center'}" title="${safeName}">${safeName}</h3>
+                            <p class="text-gray-400 line-clamp-2 overflow-hidden ${hasCover ? '' : 'text-center'} mb-2">${(item.vod_remarks||'暂无介绍').toString().replace(/</g,'&lt;')}</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-1 pt-1 border-t border-gray-800"></div>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = html;
+        while (wrapper.firstChild) resultsDiv.appendChild(wrapper.firstChild);
+        _infiniteState.rendered += slice.length;
+    }
+    renderMore();
+    const sentinel = document.createElement('div');
+    sentinel.id = 'resultsSentinel';
+    resultsDiv.appendChild(sentinel);
+    const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+            if (e.isIntersecting) {
+                renderMore();
+                if (_infiniteState.rendered >= _infiniteState.list.length) io.disconnect();
+            }
+        });
+    },{ root: null, rootMargin: '0px 0px 400px 0px', threshold: 0 });
+    io.observe(sentinel);
 }
 
 // 切换清空按钮的显示状态
