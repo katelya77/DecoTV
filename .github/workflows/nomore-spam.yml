@@ -1,0 +1,31 @@
+name: NoMore Spam
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+    
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  models: read
+  actions: write
+
+jobs:
+  spam-detection:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Detect and close spam
+        uses: JohnsonRan/nomore-spam@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ai-base-url: ${{ secrets.AI_BASE_URL }}
+          ai-api-key: ${{ secrets.AI_API_KEY }}
+          ai-model: 'qwen3-235b-a22b'
+          labels: 'bug,enhancement,question'
+          analyze-file-changes: 'true'
+          max-analysis-depth: 'normal'
+          blacklist: ${{ secrets.BLACKLIST }} # 可选：黑名单用户列表

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="same-origin">
+    <title>LibreTV 播放器</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="image/logo.png">
+    <link rel="apple-touch-icon" href="image/logo-black.png">
+    <link rel="manifest" href="manifest.json">
+
+    <script src="libs/tailwindcss.min.js"></script>
+    <script src="js/version-check.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/player.css">
+    
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <header class="player-header-fixed p-4 flex items-center border-b border-[#333] gap-2">
+        <div class="flex items-center min-w-0">
+            <button id="homeButton" type="button" class="flex items-center min-w-0 cursor-pointer home-button">
+                <svg class="w-8 h-8 mr-2 text-[#00ccff] logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <h1 class="text-xl font-bold gradient-text logo-text">LibreTV</h1>
+            </button>
+        </div>
+        <h2 id="videoTitle" class="text-xl font-semibold flex-1 text-center overflow-x-auto whitespace-nowrap truncate custom-title-scroll"></h2>
+        <a href="#" id="goBack" onclick="goBack(event)" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors flex items-center min-w-0 home-btn">
+            <svg class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.25 11h15a1.5 1.5 0 1 1 0 3H5.25a1.5 1.5 0 0 1 0-3z"/>
+                <path d="M5.55 12 11.3 17.3a1.5 1.5 0 1 1-2.12 2.12L3 12l6.18-6.18a1.5 1.5 0 1 1 2.12 2.12L5.55 12z"/>
+            </svg>
+            <span class="home-btn-text">上一页</span>
+        </a>
+    </header>
+
+    <!-- 密码验证弹窗 -->
+    <div id="passwordModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[65] transition-opacity duration-300">
+        <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-md border border-[#333] max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center mb-6 flex-none">
+                <h2 class="text-2xl font-bold gradient-text">访问验证</h2>
+            </div>
+            <div class="mb-6">
+                <p class="text-gray-300 mb-4">请输入密码继续访问</p>
+                <form id="passwordForm" onsubmit="handlePasswordSubmit(); return false;">
+                    <input type="text" name="username" id="username" autocomplete="username" style="display:none" tabindex="-1" aria-hidden="true">
+                    <input type="password" id="passwordInput" class="w-full bg-[#111] border border-[#333] text-white px-4 py-3 rounded-lg focus:outline-none focus:border-white transition-colors" placeholder="密码..." autocomplete="new-password">
+                    <button id="passwordSubmitBtn" type="submit" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">提交</button>
+                </form>
+                <p id="passwordError" class="text-red-500 mt-2 hidden">密码错误，请重试</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-4">        <!-- 视频播放区 -->
+        <div id="playerContainer" class="player-container mb-4">
+            <div class="relative">
+                <div id="player" class="player-placeholder">
+                    <!-- Initial loading state before JavaScript loads -->
+                    <div class="player-loading-overlay">
+                        <div class="player-loading-spinner"></div>
+                        <div class="player-loading-text" id="loading-title">正在加载视频...</div>
+                    </div>
+                </div>
+                <div class="loading-container" id="player-loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <div>正在加载视频...</div>
+                </div>
+                <div class="error-container" id="error">
+                    <div class="error-icon">⚠️</div>
+                    <div id="error-message">视频加载失败</div>
+                    <div class="error-message-sub">请尝试其他视频源或稍后重试</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 源信息 -->
+        <div class="player-container flex justify-between py-2 px-4 mb-2 bg-gray-700" id="resourceInfoBarContainer">
+            <!-- 资源信息卡片、切换按钮、视频数将由JS动态渲染 -->
+        </div>
+
+        <!-- 集数导航 -->
+        <div class="player-container">
+            <div class="flex justify-between items-center my-4">
+                <button onclick="playPreviousEpisode()" id="prevButton" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors">
+                    <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    上一集
+                </button>
+                <span class="text-gray-400" id="episodeInfo">加载中...</span>
+                <button onclick="playNextEpisode()" id="nextButton" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors">
+                    下一集
+                    <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- 添加自动播放开关和排序按钮 -->
+        <div class="player-container mb-2">
+            <div class="flex flex-wrap justify-end items-center gap-2">
+                <!-- 自动连播开关 - 分组到左边 -->
+                <div class="flex items-center gap-1 flex-shrink-0 mr-auto">
+                    <span class="text-gray-400 text-sm whitespace-nowrap">自动连播</span>
+                    <label class="switch">
+                        <input type="checkbox" id="autoplayToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <!-- 把各种功能按钮放在右侧 - 在小屏幕上各自占一行 -->
+                <div class="flex flex-wrap justify-end gap-2">
+                    <!-- 倒序排列按钮 -->
+                    <button onclick="toggleEpisodeOrder()" class="px-3 py-1 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors flex items-center space-x-1 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" id="orderIcon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                        </svg>
+                        <span id="orderText">倒序排列</span>
+                    </button>
+                    
+                    <!-- 复制链接按钮 -->
+                    <button title="复制播放链接" onclick="copyLinks()" class="px-2 py-1 bg-[#222] hover:bg-[#333] border border-[#333] text-white rounded-lg transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 012-2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
+                    </button>
+                    
+                    <!-- 锁定控制按钮 - 始终显示在最右侧 -->
+                    <button id="lockToggle" onclick="toggleControlsLock()" title="锁定控制" 
+                            class="px-2 py-1 bg-[#222] hover:bg-[#333] border border-[#333] text-white rounded-lg transition flex-shrink-0">
+                        <svg id="lockIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- 默认状态：未锁图标 -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11V7a3 3 0 00-6 0v4m-3 4h12v6H6v-6z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 集数网格 -->
+        <div class="player-container">
+            <div class="episode-grid" id="episodesGrid">
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2" id="episodesList">
+                    <!-- 集数将在这里动态加载 -->
+                    <div class="col-span-full text-center text-gray-400 py-8">加载中...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 添加快捷键提示元素 -->
+    <div class="shortcut-hint" id="shortcutHint">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="shortcutIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span id="shortcutText"></span>
+    </div>
+
+    <!-- 页脚区域 -->
+    <footer class="footer mt-2 py-6 border-t border-[#333] bg-[#0a0a0a]">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center justify-center md:justify-start">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="gradient-text font-bold">LibreTV</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center md:text-left">© 2025 LibreTV - 自由观影，畅享精彩</p>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <p class="text-gray-500 text-sm max-w-md">
+                        免责声明：本站仅为视频搜索工具，不存储、上传或分发任何视频内容。
+                        所有视频均来自第三方API接口。如有侵权，请联系相关内容提供方。
+                    </p>
+                    <div class="mt-2 flex justify-center md:justify-end space-x-4">
+                        <a href="about.html" class="text-gray-400 hover:text-white text-sm transition-colors">关于我们</a>
+                        <a href="about.html" class="text-gray-400 hover:text-white text-sm transition-colors">隐私政策</a>
+                        <a href="https://www.msf.hk/zh-hant/donate/general?type=one-off" target="_blank" rel="noopener" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">捐赠</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 换源模态框 -->
+    <div id="modal" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center transition-opacity duration-300 z-[10000]">
+        <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-4xl border border-[#333] max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center mb-6 flex-none">
+                <h2 id="modalTitle" class="text-2xl font-bold gradient-text break-words pr-4 max-w-[80%]"></h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl transition-colors flex-shrink-0">&times;</button>
+            </div>
+            <div id="modalContent" class="overflow-auto flex-1 min-h-0">
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加 loading 提示框 -->
+    <div id="loading" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[10001]">
+        <div class="bg-[#111] p-8 rounded-lg border border-[#333] flex items-center space-x-4">
+            <div class="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-white text-lg">加载中...</p>
+        </div>
+    </div>
+
+    <!-- 引入纯 JS sha256（HTTP 下依然可用） -->
+    <script src="libs/sha256.min.js"></script>
+    <script>
+        // 保存原始 js‑sha256 实现，避免被 password.js 覆盖
+        window._jsSha256 = window.sha256;
+    </script>
+    
+    <script src="libs/hls.min.js" crossorigin="anonymous"></script>
+    <script src="libs/artplayer.min.js" crossorigin="anonymous"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/proxy-auth.js"></script>
+    <script src="js/customer_site.js"></script>
+    <script src="js/password.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/player.js"></script>
+
+    <script>
+        // 创建全局环境变量对象
+        window.__ENV__ = window.__ENV__ || {};
+        
+        // 注入服务器端环境变量 (将由服务器端替换)
+        // PASSWORD 变量将在这里被服务器端注入
+        window.__ENV__.PASSWORD = "{{PASSWORD}}";
+
+        // 修复 home 跳转
+        document.addEventListener('DOMContentLoaded', function() {
+            // 使用事件委托处理首页按钮点击
+            document.body.addEventListener('click', function(event) {
+                const homeButton = event.target.closest('#homeButton');
+                if (homeButton) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    // 如果是在iframe中打开的，尝试关闭iframe
+                    if (window.self !== window.top) {
+                        try {
+                            // 尝试调用父窗口的关闭播放器函数
+                            window.parent.closeVideoPlayer && window.parent.closeVideoPlayer(true);
+                            return;
+                        } catch (e) {
+                            console.error('调用父窗口closeVideoPlayer失败:', e);
+                        }
+                    }
+
+                    // 多重兜底跳转
+                    try {
+                            window.location.href = '/';
+                    } catch (e) {
+                        try {
+                            window.location.replace('/');
+                        } catch (e2) {
+                            window.location.assign('/');
+                    }
+                    }
+                    return false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

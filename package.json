@@ -1,0 +1,23 @@
+{
+  "name": "libretv",
+  "type": "module",
+  "version": "1.1.0",
+  "private": true,
+  "description": "免费在线视频搜索与观看平台",
+  "author": "bestZwei",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "nodemon server.mjs",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

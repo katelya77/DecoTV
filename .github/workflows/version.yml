@@ -1,0 +1,35 @@
+name: Bump version
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  bump-version:
+    if: github.repository == 'LibreSpark/LibreTV'
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'Asia/Shanghai'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Bump version and commit changes
+      run: |
+        CURRENT_TIME=$(date +"%Y-%m-%d %H:%M")
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        echo $(date +"%Y%m%d%H%M") > VERSION.txt
+        git add VERSION.txt
+        git commit -m "Auto Update $CURRENT_TIME"
+        git push origin main
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: 0
+        keep_minimum_runs: 2

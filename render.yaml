@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: libretv
+    runtime: node
+    plan: free
+    buildCommand: 'npm install'
+    startCommand: 'node server.mjs'
+    autoDeploy: true 

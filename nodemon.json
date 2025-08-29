@@ -1,0 +1,21 @@
+{
+  "watch": [
+    "server.mjs",
+    "*.html",
+    ".env"
+  ],
+  "ext": "js,mjs,json,html,css",
+  "ignore": [
+    "node_modules/**/*",
+    ".git/**/*"
+  ],
+  "delay": "500",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "execMap": {
+    "mjs": "node"
+  },
+  "verbose": true,
+  "restartable": "rs"
+}

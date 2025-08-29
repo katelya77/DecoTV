@@ -1,0 +1,128 @@
+/* 添加重定向页面的基本样式 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0f1622;
+    color: white;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.redirect-container {
+    text-align: center;
+    max-width: 90%;
+    width: 380px;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    color: #00ccff;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 2rem;
+    margin: 0;
+    background: linear-gradient(to right, #00ccff, #ff3c78);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.loading-animation {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #00ccff;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.redirect-message {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+#redirect-status {
+    font-size: 0.9rem;
+    color: #8599b2;
+    margin-bottom: 1.5rem;
+    height: 20px;
+}
+
+.redirect-hint {
+    font-size: 0.9rem;
+    color: #8599b2;
+    margin-top: 20px;
+}
+
+.redirect-hint a {
+    color: #00ccff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(0, 204, 255, 0.1);
+}
+
+.redirect-hint a:hover {
+    background-color: rgba(0, 204, 255, 0.2);
+    text-decoration: underline;
+}
+
+/* 移动端优化 */
+@media (max-width: 480px) {
+    .redirect-container {
+        padding: 1.5rem;
+        width: 85%;
+    }
+
+    .logo-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logo-text {
+        font-size: 1.7rem;
+    }
+
+    .loading-animation {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 15px;
+    }
+
+    .redirect-message {
+        font-size: 1rem;
+    }
+
+    #redirect-status {
+        font-size: 0.8rem;
+    }
+}

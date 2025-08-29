@@ -1,0 +1,265 @@
+/* 模态框通用样式 */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: #111;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #333;
+    width: 91.666667%;
+    max-width: 56rem;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex: none;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #00ccff, #ff3c78);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    word-break: break-word;
+    padding-right: 1rem;
+    max-width: 80%;
+}
+
+.modal-close {
+    color: #9ca3af;
+    font-size: 1.5rem;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    color: white;
+}
+
+.modal-body {
+    overflow: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+/* 密码验证模态框 */
+.password-modal {
+    z-index: 65;
+}
+
+.password-form {
+    margin-bottom: 1.5rem;
+}
+
+.password-input {
+    width: 100%;
+    background-color: #111;
+    border: 1px solid #333;
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.password-input:focus {
+    outline: none;
+    border-color: white;
+}
+
+.password-submit {
+    width: 100%;
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+}
+
+.password-submit:hover {
+    background-color: #2563eb;
+}
+
+.password-error {
+    color: #ef4444;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+/* 声明模态框 */
+.disclaimer-modal {
+    z-index: 60;
+}
+
+.disclaimer-content {
+    color: #d1d5db;
+    line-height: 1.5;
+}
+
+.disclaimer-content p {
+    margin-bottom: 1rem;
+}
+
+.disclaimer-content strong {
+    color: #60a5fa;
+}
+
+.disclaimer-button {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(to right, #4f46e5, #8b5cf6, #ec4899);
+    color: white;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+}
+
+.disclaimer-button:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Toast 和 Loading 提示 */
+.toast {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    background-color: #ef4444;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    opacity: 0;
+    z-index: 50;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.loading-content {
+    background-color: #111;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 4px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.125rem;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.modal-overlay.show {
+    animation: fadeIn 0.3s forwards;
+    display: flex;
+}
+
+.modal-overlay.hide {
+    animation: fadeOut 0.3s forwards;
+}
+
+/* 资源速率测试相关样式 */
+.speed-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.speed-indicator.good {
+    color: #10b981;
+}
+
+.speed-indicator.medium {
+    color: #f59e0b;
+}
+
+.speed-indicator.poor {
+    color: #ef4444;
+}
+
+.speed-indicator.error {
+    color: #ef4444;
+}
+
+/* 资源卡片悬停效果增强 */
+.resource-card {
+    transition: all 0.2s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.resource-card.current {
+    border: 1px solid #3b82f6;
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+/* 速率徽章样式 */
+.speed-badge {
+    backdrop-filter: blur(4px);
+    font-size: 9px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    padding: 2px 4px;
+}
