@@ -22,11 +22,6 @@ const SITE_CONFIG = {
 
 // API站点配置
 const API_SITES = {
-    testSource: {
-        api: 'https://www.example.com/api.php/provide/vod',
-        name: '空内容测试源',
-        adult: true
-    },
         qiqi: {
         api: 'https://www.qiqiapi.com/api.php/provide/vod',
         name: '七七资源',
@@ -135,7 +130,7 @@ const API_SITES = {
         api: 'https://zy.xmm.hk/api.php/provide/vod',
         name: '小猫咪资源',
         adult: false
-    }
+    },
     //ARCHIVE https://telegra.ph/APIs
 };
 
