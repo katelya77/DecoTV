@@ -551,95 +551,69 @@ body {
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
 }
 
-/* 历史记录和设置面板样式 - 重新设计 */
+/* 简化面板样式 - 确保基本功能 */
 .history-panel,
 .settings-panel {
     position: fixed;
     top: 0;
-    bottom: 0;
-    width: 90vw;
-    max-width: 420px;
+    height: 100vh;
+    width: 350px;
     background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(0, 255, 255, 0.2);
     z-index: 1000;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-radius: 0 20px 20px 0;
     overflow-y: auto;
-    overflow-x: hidden;
+    transition: transform 0.3s ease;
+}
+
+.history-panel {
+    left: 0;
+    transform: translateX(-100%);
 }
 
 .settings-panel {
     right: 0;
-    left: auto;
     transform: translateX(100%);
-    border-radius: 20px 0 0 20px;
-    border-left: 1px solid rgba(0, 255, 255, 0.2);
-    border-right: none;
 }
 
 .history-panel.show {
-    transform: translateX(0) !important;
+    transform: translateX(0);
 }
 
 .settings-panel.show {
-    transform: translateX(0) !important;
+    transform: translateX(0);
 }
 
-/* 面板遮罩层 */
-.panel-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.panel-overlay.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* 面板标题栏优化 */
-.panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
+/* 简单的关闭按钮 */
 .panel-close-btn {
-    background: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    color: #ff6b6b;
-    padding: 8px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.4);
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    color: #ff6b6b;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    font-size: 16px;
 }
 
 .panel-close-btn:hover {
-    background: rgba(255, 0, 0, 0.2);
-    border-color: rgba(255, 0, 0, 0.6);
-    transform: scale(1.1);
+    background: rgba(255, 0, 0, 0.3);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .history-panel,
+    .settings-panel {
+        width: 90vw;
+        max-width: 350px;
+    }
 }
 
 /* 面板按钮样式优化 */
@@ -695,24 +669,14 @@ body {
     color: var(--text-primary);
 }
 
-/* 主容器样式优化 */
+/* 主容器样式优化 - 去掉渐变背景 */
 .hero-section {
-    background: var(--bg-primary);
+    background: transparent;
     position: relative;
 }
 
 .hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(var(--neon-primary-rgb, 0, 255, 255), 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(var(--neon-secondary-rgb, 255, 0, 128), 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none; /* 完全隐藏渐变背景 */
 }
 
 .hero-section > * {
@@ -722,7 +686,7 @@ body {
 
 /* 移除过于强烈的渐变边框 */
 .gradient-top-border {
-    border-top: 1px solid var(--border-color);
+    border-top: none; /* 完全移除边框 */
 }
 
 /* 文本颜色适配主题 */
