@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 
-LABEL maintainer="LibreTV Team"
-LABEL description="LibreTV - 免费在线视频搜索与观看平台"
+LABEL maintainer="katelya77@gmail.com"
+LABEL description="DecoTV - 免费在线视频搜索与观看平台（基于LibreTV二创）"
 
 # 设置环境变量
 ENV PORT=8080
@@ -10,6 +10,7 @@ ENV DEBUG=false
 ENV REQUEST_TIMEOUT=5000
 ENV MAX_RETRIES=2
 ENV CACHE_MAX_AGE=1d
+ENV PASSWORD=""
 
 # 设置工作目录
 WORKDIR /app

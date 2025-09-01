@@ -3,19 +3,37 @@
 <div align="center">
   <img src="image/logo.png" alt="DecoTV Logo" width="120">
   <br>
-  <p><strong>自由观影，畅享精彩</strong></p>
+  <p><strong>🎬 自由观影 • 畅享精彩 • 无限可能 🎬</strong></p>
+  <p>基于 <strong>LibreTV</strong> 二次创作 • 致敬原作者</p>
+  
+  ![GitHub release](https://img.shields.io/github/v/release/katelya77/DecoTV)
+  ![GitHub stars](https://img.shields.io/github/stars/katelya77/DecoTV)
+  ![GitHub forks](https://img.shields.io/github/forks/katelya77/DecoTV)
+  ![Docker Pulls](https://img.shields.io/docker/pulls/katelya77/decotv)
 </div>
+
+## ✨ 项目特色
+
+### 🎨 视觉升级
+- **霓虹灯特效**：酷炫的霓虹光晕效果和渐变动画
+- **玻璃磨砂设计**：现代化的玻璃质感界面
+- **卡片化布局**：优雅的内容展示方式
+- **响应式设计**：完美适配各种设备屏幕
+
+### 🚀 功能增强
+- **20+ 视频源**：整合多个优质视频接口
+- **折叠式侧边栏**：便捷的历史记录和设置面板
+- **智能搜索**：快速精准的内容查找
+- **多部署方式**：支持 Docker、Vercel、Cloudflare Pages 等
 
 ## 📺 项目简介
 
 DecoTV 是一个轻量级、免费的在线视频搜索与观看平台，提供来自多个视频源的内容搜索与播放服务。无需注册，即开即用，支持多种设备访问。项目结合了前端技术和后端代理功能，可部署在支持服务端功能的各类网站托管服务上。
 
-本项目为对 LibreTV 的二次创作，向原作者致敬，并在 UI、品牌与交互体验上进行增强。
-
-本项目基于 [bestK/tv](https://github.com/bestK/tv) 进行重构与增强。
+本项目为对 LibreTV 的二次创作，向原作者致敬，并在 UI、品牌与交互体验上进行全面增强。
 
 <details>
-  <summary>点击查看项目截图</summary>
+  <summary>🖼️ 点击查看项目截图</summary>
   <img src="https://github.com/user-attachments/assets/df485345-e83b-4564-adf7-0680be92d3c7" alt="项目截图" style="max-width:600px">
 </details>
 
@@ -23,9 +41,17 @@ DecoTV 是一个轻量级、免费的在线视频搜索与观看平台，提供�
 
 选择以下任一平台，点击一键部署按钮，即可快速创建自己的 DecoTV 实例：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-user%2FDecoTV)  
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/your-user/DecoTV)  
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/your-user/DecoTV)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkatelya77%2FDecoTV)  
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/katelya77/DecoTV)  
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/katelya77/DecoTV)
+
+## 🔐 密码保护设置
+
+为了保护您的部署实例，**强烈建议**设置 `PASSWORD` 环境变量：
+
+```bash
+PASSWORD=your_secure_password_here
+```
 
 ## 🚨 重要声明
 
@@ -34,7 +60,7 @@ DecoTV 是一个轻量级、免费的在线视频搜索与观看平台，提供�
 - 如因公开分享导致的任何法律问题，用户需自行承担责任
 - 项目开发者不对用户的使用行为承担任何法律责任
 
-## ⚠️ 同步与升级
+## 🔄 同步与升级
 
 Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护。作者可能会直接拉黑所有 Pull Bot 自动发起的同步请求的仓库所有者。
 
@@ -49,7 +75,57 @@ Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护�
 
 ## 📋 详细部署指南
 
-### Cloudflare Pages
+### 🐳 Docker 部署（推荐）
+
+#### 方式1：Docker Compose（推荐）
+
+1. 克隆仓库：
+```bash
+git clone https://github.com/katelya77/DecoTV.git
+cd DecoTV
+```
+
+2. 复制环境变量文件：
+```bash
+cp .env.example .env
+```
+
+3. 编辑 `.env` 文件，设置您的密码：
+```bash
+PASSWORD=your_secure_password_here
+```
+
+4. 启动服务：
+```bash
+# 开发环境（本地构建）
+docker-compose up -d
+
+# 生产环境（使用预构建镜像）
+docker-compose --profile prod up -d
+```
+
+5. 访问 `http://localhost:8080`
+
+#### 方式2：直接运行 Docker 容器
+
+```bash
+# 使用本地构建
+docker build -t decotv .
+docker run -d \
+  --name decotv \
+  -p 8080:8080 \
+  -e PASSWORD=your_secure_password_here \
+  decotv
+
+# 或使用预构建镜像
+docker run -d \
+  --name decotv \
+  -p 8080:8080 \
+  -e PASSWORD=your_secure_password_here \
+  katelya77/decotv:latest
+```
+
+### ☁️ Cloudflare Pages
 
 1. Fork 或克隆本仓库到您的 GitHub 账户
 2. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)，进入 Pages 服务
@@ -60,7 +136,7 @@ Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护�
 5. **⚠️ 重要：在"设置" > "环境变量"中添加 `PASSWORD` 变量（必须设置）**
 6. 点击"保存并部署"
 
-### Vercel
+### ▲ Vercel
 
 1. Fork 或克隆本仓库到您的 GitHub/GitLab 账户
 2. 登录 [Vercel](https://vercel.com/)，点击"New Project"
@@ -68,20 +144,139 @@ Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护�
 4. **⚠️ 重要：在"Settings" > "Environment Variables"中添加 `PASSWORD` 变量（必须设置）**
 5. 点击"Deploy"
 
+### 🌐 Netlify
 
-### Docker
+1. Fork 本仓库到您的 GitHub 账户
+2. 登录 [Netlify](https://netlify.com)，点击"New site from Git"
+3. 选择您的仓库，使用默认设置
+4. **⚠️ 重要：在"Site settings" > "Environment variables"中添加 `PASSWORD` 变量**
+
+### 🎯 Render
+
+1. Fork 本仓库到您的 GitHub 账户  
+2. 登录 [Render](https://render.com)，点击"New" > "Web Service"
+3. 连接您的仓库，使用默认设置
+4. **⚠️ 重要：在"Environment"部分添加 `PASSWORD` 变量**
+
+## 🔧 本地开发
+
+1. 克隆仓库：
+```bash
+git clone https://github.com/katelya77/DecoTV.git
+cd DecoTV
 ```
-docker run -d \
-  --name libretv \
-  --restart unless-stopped \
-  -p 8899:8080 \
-  -e PASSWORD=your_password \
-  bestzwei/libretv:latest
+
+2. 安装依赖：
+```bash
+npm install
 ```
 
-### Docker Compose
+3. 设置环境变量：
+```bash
+cp .env.example .env
+# 编辑 .env 文件，添加 PASSWORD=your_password
+```
 
-`docker-compose.yml` 文件：
+4. 启动开发服务器：
+```bash
+npm run dev
+```
+
+5. 访问 `http://localhost:8080`
+
+## 🔑 环境变量配置
+
+在部署时，请确保设置以下环境变量：
+
+| 变量名 | 必需 | 默认值 | 说明 |
+|--------|------|--------|------|
+| `PASSWORD` | ✅ | - | 访问密码（强烈建议设置） |
+| `PORT` | ❌ | 8080 | 服务器端口 |
+| `CORS_ORIGIN` | ❌ | * | CORS 允许源 |
+| `DEBUG` | ❌ | false | 调试模式 |
+## 📱 功能特色
+
+### 🎨 视觉效果
+- **霓虹灯特效**：动感十足的霓虹光晕和渐变效果
+- **玻璃磨砂质感**：现代化的毛玻璃界面设计
+- **流畅动画**：丝滑的过渡效果和交互反馈
+- **响应式布局**：完美适配手机、平板、电脑
+
+### 🔧 实用功能
+- **智能搜索**：支持模糊搜索和快速筛选
+- **观看历史**：自动记录观看记录，便于快速回看
+- **多源整合**：整合20+优质视频资源接口
+- **设置面板**：丰富的个性化配置选项
+
+### 🛠️ 技术特点
+- **无需注册**：开箱即用，保护用户隐私
+- **轻量级**：精简代码，快速加载
+- **多端支持**：跨平台部署，灵活便捷
+- **开源免费**：MIT 协议，自由使用和修改
+
+## 🔍 使用指南
+
+1. **首次访问**：如设置了密码保护，请输入密码进行验证
+2. **搜索内容**：在搜索框中输入想观看的影片名称
+3. **选择资源**：点击搜索结果中的影片，选择播放源
+4. **开始观看**：选择清晰度和播放线路，享受观影体验
+5. **设置配置**：点击右上角设置按钮，自定义API源和功能选项
+
+## 🔐 安全说明
+
+- 项目强制要求设置 `PASSWORD` 环境变量以保护部署实例
+- 建议使用强密码，避免简单易猜的密码组合
+- 请勿在公共场所或社交媒体分享部署链接和密码
+- 定期更换访问密码以确保安全性
+
+## 🤝 贡献指南
+
+我们欢迎所有形式的贡献！
+
+### 如何贡献
+1. Fork 本仓库
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+### 贡献类型
+- 🐛 Bug 修复
+- ✨ 新功能开发  
+- 📝 文档改进
+- 🎨 UI/UX 优化
+- 🔧 代码重构
+- 🌐 多语言支持
+
+## 📞 联系方式
+
+- **作者邮箱**：[katelya77@gmail.com](mailto:katelya77@gmail.com)
+- **项目主页**：[GitHub Repository](https://github.com/katelya77/DecoTV)
+- **问题反馈**：[Issues](https://github.com/katelya77/DecoTV/issues)
+- **功能建议**：[Discussions](https://github.com/katelya77/DecoTV/discussions)
+
+## ⭐ Star History
+
+如果本项目对您有帮助，请给个 Star ⭐ 支持一下！
+
+[![Star History Chart](https://api.star-history.com/svg?repos=katelya77/DecoTV&type=Date)](https://star-history.com/#katelya77/DecoTV&Date)
+
+## 📄 开源协议
+
+本项目采用 [MIT License](LICENSE) 开源协议。
+
+## 🙏 鸣谢
+
+- 感谢 [LibreTV](https://github.com/LibreSpark/LibreTV) 原项目提供的基础框架
+- 感谢所有为项目贡献代码和建议的开发者们
+- 感谢开源社区提供的优秀工具和库
+
+---
+
+<div align="center">
+  <p>⚡ 由 <strong>katelya77</strong> 用 ❤️ 制作</p>
+  <p>🎬 <strong>DecoTV - 自由观影，畅享精彩</strong> 🎬</p>
+</div>
 
 ```yaml
 services:

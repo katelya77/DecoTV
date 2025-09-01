@@ -1,19 +1,29 @@
 services:
-  libretv:
-    image: bestzwei/libretv:latest
-    container_name: libretv
+  decotv:
+    build: .
+    container_name: decotv
     ports:
-      - "8899:8080" # 将内部 8080 端口映射到主机的 8899 端口
+      - "8080:8080" # 将内部 8080 端口映射到主机的 8080 端口
     environment:
       - PASSWORD=${PASSWORD:-your_password} # 可将 your_password 修改为你想要的密码，默认为 your_password
-#    volumes:
-#      - libretv_data:/app # 不要修改
+      - PORT=8080
+      - CORS_ORIGIN=*
+      - DEBUG=false
     restart: unless-stopped
+    # 可选：如果需要持久化数据，取消注释下面的 volumes 配置
+    # volumes:
+    #   - ./data:/app/data
 
-#volumes:
-#  libretv_data:
-#    driver: local
-#    driver_opts:
-#      type: none
-#      o: bind
-#      device: ${PWD:-.}/data # 可将 ${PWD:-.} 修改为你想要的路径，默认为当前目录下的 data 文件夹
+  # 使用预构建镜像的版本（推荐生产环境使用）
+  decotv-prod:
+    image: katelya77/decotv:latest
+    container_name: decotv-prod
+    ports:
+      - "8080:8080"
+    environment:
+      - PASSWORD=${PASSWORD:-your_password}
+      - PORT=8080
+      - CORS_ORIGIN=*
+    restart: unless-stopped
+    profiles:
+      - prod

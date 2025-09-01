@@ -946,17 +946,28 @@ toggleSettings = function(e) {
     }
 };
 
-// 点击外部关闭历史面板
+// 点击外部关闭面板
 document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         const historyPanel = document.getElementById('historyPanel');
         const historyButton = document.querySelector('button[onclick="toggleHistory(event)"]');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsButton = document.querySelector('button[onclick="toggleSettings(event)"]');
 
+        // 关闭历史面板
         if (historyPanel && historyButton &&
             !historyPanel.contains(e.target) &&
             !historyButton.contains(e.target) &&
             historyPanel.classList.contains('show')) {
             historyPanel.classList.remove('show');
+        }
+
+        // 关闭设置面板
+        if (settingsPanel && settingsButton &&
+            !settingsPanel.contains(e.target) &&
+            !settingsButton.contains(e.target) &&
+            settingsPanel.classList.contains('show')) {
+            settingsPanel.classList.remove('show');
         }
     });
 });
