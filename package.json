@@ -1,14 +1,32 @@
 {
-  "name": "libretv",
+  "name": "decotv",
   "type": "module",
-  "version": "1.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "免费在线视频搜索与观看平台",
-  "author": "bestZwei",
+  "description": "DecoTV - 免费在线视频搜索与观看平台，基于 LibreTV 二次创作",
+  "author": "katelya77",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/katelya77/DecoTV",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/katelya77/DecoTV.git"
+  },
+  "keywords": [
+    "video",
+    "streaming",
+    "search",
+    "online",
+    "free",
+    "decotv"
+  ],
   "scripts": {
     "dev": "nodemon server.mjs",
-    "start": "node server.mjs"
+    "start": "node server.mjs",
+    "docker:build": "docker build -t decotv .",
+    "docker:build:ghcr": "docker build -t ghcr.io/katelya77/decotv:latest .",
+    "docker:run": "docker run -p 3000:3000 decotv",
+    "docker:run:ghcr": "docker run -p 3000:3000 ghcr.io/katelya77/decotv:latest",
+    "docker:push:ghcr": "docker push ghcr.io/katelya77/decotv:latest"
   },
   "dependencies": {
     "axios": "^1.9.0",

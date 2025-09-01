@@ -1,7 +1,12 @@
 FROM node:lts-alpine
 
-LABEL maintainer="katelya77@gmail.com"
-LABEL description="DecoTV - 免费在线视频搜索与观看平台（基于LibreTV二创）"
+LABEL maintainer="katelya77"
+LABEL org.opencontainers.image.title="DecoTV"
+LABEL org.opencontainers.image.description="DecoTV - 免费在线视频搜索与观看平台（基于LibreTV二创）"
+LABEL org.opencontainers.image.url="https://github.com/katelya77/DecoTV"
+LABEL org.opencontainers.image.source="https://github.com/katelya77/DecoTV"
+LABEL org.opencontainers.image.version="0.2.0"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
 
 # 设置环境变量
 ENV PORT=8080

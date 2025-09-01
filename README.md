@@ -39,11 +39,33 @@ DecoTV 是一个轻量级、免费的在线视频搜索与观看平台，提供�
 
 ## 🚀 快速部署
 
+### 🐳 Docker 部署 (推荐)
+```bash
+# 方式一：使用预构建镜像 (最快)
+docker run -p 3000:3000 ghcr.io/katelya77/decotv:latest
+
+# 方式二：本地构建
+git clone https://github.com/katelya77/DecoTV.git
+cd DecoTV
+npm run docker:build && npm run docker:run
+```
+
+### ☁️ 云平台一键部署
 选择以下任一平台，点击一键部署按钮，即可快速创建自己的 DecoTV 实例：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkatelya77%2FDecoTV)  
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/katelya77/DecoTV)  
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/katelya77/DecoTV)
+
+### 💻 本地部署
+```bash
+git clone https://github.com/katelya77/DecoTV.git
+cd DecoTV
+npm install
+npm start
+```
+
+📋 **详细部署指南**: [查看 DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ## 🔐 密码保护设置
 

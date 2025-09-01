@@ -248,7 +248,7 @@ body {
 /* 搜索框霓虹效果 */
 .neon-search-container {
     position: relative;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -256,7 +256,7 @@ body {
     background: rgba(0, 0, 0, 0.6);
     border: 2px solid var(--neon-primary);
     border-radius: 50px;
-    padding: 15px 25px;
+    padding: 18px 35px;
     font-size: 1.1rem;
     color: white;
     outline: none;
