@@ -1,0 +1,562 @@
+/* DecoTV 霓虹灯和玻璃特效样式 */
+
+/* 导入霓虹字体 */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap');
+
+:root {
+    /* 霓虹配色 */
+    --neon-primary: #00ffff;
+    --neon-secondary: #ff0080;
+    --neon-accent: #ffff00;
+    --neon-purple: #8000ff;
+    --neon-green: #00ff00;
+    
+    /* 玻璃效果颜色 */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: rgba(0, 0, 0, 0.3);
+    
+    /* 暗色背景 */
+    --dark-bg: #0a0a0a;
+    --dark-surface: #1a1a1a;
+    --dark-surface-2: #2a2a2a;
+}
+
+/* 全局背景更新 */
+.page-bg {
+    background: radial-gradient(ellipse at top, #0d1b2a 0%, #0a0a0a 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+.page-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(128, 0, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* DecoTV 主标题样式 */
+.deco-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 4rem;
+    font-weight: 900;
+    text-align: center;
+    margin: 2rem 0;
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary), var(--neon-accent));
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease-in-out infinite, neon-pulse 2s ease-in-out infinite;
+    text-shadow: 
+        0 0 5px var(--neon-primary),
+        0 0 10px var(--neon-primary),
+        0 0 20px var(--neon-primary),
+        0 0 40px var(--neon-primary);
+    position: relative;
+}
+
+.deco-logo::before {
+    content: 'DecoTV';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0.7;
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes neon-pulse {
+    0%, 100% {
+        text-shadow: 
+            0 0 5px var(--neon-primary),
+            0 0 10px var(--neon-primary),
+            0 0 20px var(--neon-primary),
+            0 0 40px var(--neon-primary);
+    }
+    50% {
+        text-shadow: 
+            0 0 2px var(--neon-primary),
+            0 0 5px var(--neon-primary),
+            0 0 10px var(--neon-primary),
+            0 0 20px var(--neon-primary),
+            0 0 35px var(--neon-secondary);
+    }
+}
+
+/* 玻璃磨砂卡片效果 */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 32px var(--glass-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.glass-card:hover::before {
+    left: 100%;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 20px 40px var(--glass-shadow),
+        0 0 0 1px rgba(0, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 搜索框霓虹效果 */
+.neon-search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.neon-search-box {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--neon-primary);
+    border-radius: 50px;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    color: white;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 10px rgba(0, 255, 255, 0.3),
+        inset 0 0 10px rgba(0, 255, 255, 0.1);
+    font-family: 'Exo 2', sans-serif;
+}
+
+.neon-search-box:focus {
+    border-color: var(--neon-secondary);
+    box-shadow: 
+        0 0 20px rgba(255, 0, 128, 0.5),
+        0 0 40px rgba(255, 0, 128, 0.3),
+        inset 0 0 20px rgba(255, 0, 128, 0.1);
+    transform: scale(1.05);
+}
+
+.neon-search-box::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+.neon-search-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Exo 2', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.neon-search-btn:hover {
+    background: linear-gradient(45deg, var(--neon-secondary), var(--neon-accent));
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* 视频卡片霓虹效果 */
+.video-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.video-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(0, 255, 255, 0.1) 0%, 
+        transparent 30%, 
+        transparent 70%, 
+        rgba(255, 0, 128, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.video-card:hover::after {
+    opacity: 1;
+}
+
+.video-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    border-color: var(--neon-primary);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(0, 255, 255, 0.5),
+        0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.video-poster {
+    position: relative;
+    overflow: hidden;
+}
+
+.video-poster img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover .video-poster img {
+    transform: scale(1.1);
+}
+
+.video-info {
+    padding: 20px;
+}
+
+.video-title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.video-meta {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Exo 2', sans-serif;
+}
+
+/* 按钮霓虹效果 */
+.neon-btn {
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Exo 2', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.neon-btn:hover::before {
+    left: 100%;
+}
+
+.neon-btn:hover {
+    background: linear-gradient(45deg, var(--neon-secondary), var(--neon-accent));
+    box-shadow: 0 0 25px rgba(255, 0, 128, 0.6);
+    transform: translateY(-3px);
+}
+
+/* 加载动画 */
+.neon-loading {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid transparent;
+    border-top: 3px solid var(--neon-primary);
+    border-right: 3px solid var(--neon-secondary);
+    border-radius: 50%;
+    animation: neon-spin 1s linear infinite;
+    position: relative;
+}
+
+.neon-loading::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 3px solid transparent;
+    border-top: 3px solid var(--neon-accent);
+    border-radius: 50%;
+    animation: neon-spin 1.5s linear infinite reverse;
+}
+
+@keyframes neon-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 滚动条霓虹效果 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--neon-primary), var(--neon-secondary));
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--neon-secondary), var(--neon-accent));
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.7);
+}
+
+/* 导航按钮玻璃效果 */
+.glass-nav-btn {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 10px 15px;
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.glass-nav-btn:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--neon-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .deco-logo {
+        font-size: 2.5rem;
+        margin: 1rem 0;
+    }
+    
+    .neon-search-container {
+        max-width: 90%;
+    }
+    
+    .video-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+}
+
+/* 网格布局优化 */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 25px;
+}
+
+/* 粒子动画容器 */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 标签霓虹效果 */
+.neon-tag {
+    display: inline-block;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    color: var(--neon-primary);
+    font-family: 'Exo 2', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.neon-tag:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: var(--neon-primary);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+/* 模态框玻璃效果 */
+.glass-modal {
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 输入框聚焦效果 */
+.glass-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--neon-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Toggle开关霓虹效果 */
+.toggle-bg {
+    transition: all 0.3s ease;
+}
+
+#yellowFilterToggle:checked + .toggle-bg,
+#adFilterToggle:checked + .toggle-bg,
+#doubanToggle:checked + .toggle-bg {
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary)) !important;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+#yellowFilterToggle:checked ~ .toggle-dot,
+#adFilterToggle:checked ~ .toggle-dot,
+#doubanToggle:checked ~ .toggle-dot {
+    transform: translateX(24px);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+/* 历史记录和设置面板样式 */
+.history-panel,
+.settings-panel {
+    width: 380px;
+}
+
+/* 模态框增强 */
+.glass-modal .video-title {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 豆瓣推荐区域美化 */
+#douban-results .video-card {
+    transition: all 0.3s ease;
+}
+
+#douban-results .video-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 255, 0.3);
+}
+
+/* 文字溢出处理 */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 加载状态 */
+.loading-skeleton {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 自定义滚动条 */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--neon-primary), var(--neon-secondary));
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--neon-secondary), var(--neon-accent));
+    box-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+}

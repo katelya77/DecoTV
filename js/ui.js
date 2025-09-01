@@ -381,18 +381,18 @@ function renderSearchHistory() {
 
     // 创建一个包含标题和清除按钮的行
     historyContainer.innerHTML = `
-        <div class="flex justify-between items-center w-full mb-2">
-            <div class="text-gray-500">最近搜索:</div>
-            <button id="clearHistoryBtn" class="text-gray-500 hover:text-white transition-colors"
+        <div class="flex justify-between items-center w-full mb-3">
+            <div class="text-gray-400 text-sm" style="font-family: 'Exo 2', sans-serif;">✨ 最近搜索:</div>
+            <button id="clearHistoryBtn" class="text-gray-500 hover:text-cyan-400 transition-colors text-sm"
                     onclick="clearSearchHistory()" aria-label="清除搜索历史">
-                清除搜索历史
+                🗑️ 清除历史
             </button>
         </div>
     `;
 
     history.forEach(item => {
         const tag = document.createElement('button');
-        tag.className = 'search-tag flex items-center gap-1';
+        tag.className = 'neon-tag flex items-center gap-1 mr-2 mb-2';
         const textSpan = document.createElement('span');
         textSpan.textContent = item.text;
         tag.appendChild(textSpan);
@@ -400,7 +400,7 @@ function renderSearchHistory() {
         // 添加删除按钮
         const deleteButton = document.createElement('span');
         deleteButton.className = 'pl-1 text-gray-500 hover:text-red-500 transition-colors';
-        deleteButton.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+        deleteButton.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
         deleteButton.onclick = function(e) {
             // 阻止事件冒泡，避免触发搜索
             e.stopPropagation();

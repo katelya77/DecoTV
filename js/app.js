@@ -832,15 +832,28 @@ function setupInfiniteScroll(all) {
             const hasCover = item.vod_pic && item.vod_pic.startsWith('http');
             const apiUrlAttr = item.api_url ? `data-api-url="${item.api_url.replace(/"/g,'&quot;')}"` : '';
             return `
-            <div class="card-hover glass-card rounded-lg overflow-hidden cursor-pointer transition-all hover:scale-[1.02] h-full shadow-sm hover:shadow-md reveal-on-scroll" onclick="showDetails('${safeId}','${safeName}','${sourceCode}')" ${apiUrlAttr}>
-                <div class="flex h-full">
-                    ${hasCover ? `<div class=\"relative flex-shrink-0 search-card-img-container\"><img src=\"${item.vod_pic}\" alt=\"${safeName}\" class=\"h-full w-full object-cover transition-transform hover:scale-110\" loading=\"lazy\" onerror=\"this.onerror=null; this.src='https://via.placeholder.com/300x450?text=无封面'; this.classList.add('object-contain');\"><div class=\"absolute inset-0 bg-gradient-to-r from-black/30 to-transparent\"></div></div>` : ''}
-                    <div class="p-2 flex flex-col flex-grow">
-                        <div class="flex-grow">
-                            <h3 class="font-semibold mb-2 break-words line-clamp-2 ${hasCover ? '' : 'text-center'}" title="${safeName}">${safeName}</h3>
-                            <p class="text-gray-400 line-clamp-2 overflow-hidden ${hasCover ? '' : 'text-center'} mb-2">${(item.vod_remarks||'暂无介绍').toString().replace(/</g,'&lt;')}</p>
+            <div class="video-card cursor-pointer transition-all reveal-on-scroll" onclick="showDetails('${safeId}','${safeName}','${sourceCode}')" ${apiUrlAttr}>
+                ${hasCover ? `
+                <div class="video-poster">
+                    <img src="${item.vod_pic}" alt="${safeName}" loading="lazy" onerror="this.onerror=null; this.src='image/nomedia.png'; this.classList.add('object-contain');">
+                </div>` : `
+                <div class="video-poster bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                    <div class="text-gray-500 text-center p-4">
+                        <svg class="w-16 h-16 mx-auto mb-2 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15 8.5V4a1 1 0 00-1-1H4a1 1 0 00-1 1v4.5l6 4.5 6-4.5z"/>
+                        </svg>
+                        <span class="text-sm">暂无封面</span>
+                    </div>
+                </div>`}
+                <div class="video-info">
+                    <h3 class="video-title line-clamp-2" title="${safeName}">${safeName}</h3>
+                    <div class="video-meta">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs">${(item.vod_remarks||'暂无介绍').toString().replace(/</g,'&lt;')}</span>
+                            <div class="neon-tag text-xs px-2 py-1">
+                                ${sourceCode || '未知'}
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center mt-1 pt-1 border-t border-gray-800"></div>
                     </div>
                 </div>
             </div>`;
@@ -1409,3 +1422,18 @@ function saveStringAsFile(content, fileName) {
 }
 
 // 移除Node.js的require语句，因为这是在浏览器环境中运行的
+
+// 新增的快捷功能
+function showRandomRecommendations() {
+    const searchTerms = ['动作', '喜剧', '科幻', '爱情', '悬疑', '剧情'];
+    const randomTerm = searchTerms[Math.floor(Math.random() * searchTerms.length)];
+    document.getElementById('searchInput').value = randomTerm;
+    search();
+}
+
+function showPopularMovies() {
+    const popularTerms = ['热门', '电影', '电视剧', '2024'];
+    const randomTerm = popularTerms[Math.floor(Math.random() * popularTerms.length)];
+    document.getElementById('searchInput').value = randomTerm;
+    search();
+}

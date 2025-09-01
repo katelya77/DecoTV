@@ -22,11 +22,11 @@ const SITE_CONFIG = {
 
 // API站点配置
 const API_SITES = {
-        qiqi: {
+    qiqi: {
         api: 'https://www.qiqiapi.com/api.php/provide/vod',
         name: '七七资源',
         adult: false
-    }
+    },
     dyttzy: {
         api: 'http://caiji.dyttzyapi.com/api.php/provide/vod',
         name: '电影天堂资源',
