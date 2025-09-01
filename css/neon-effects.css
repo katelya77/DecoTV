@@ -59,6 +59,52 @@
     --particle-color: rgba(59, 130, 246, 0.4);
 }
 
+/* 明亮主题文本颜色修正 */
+[data-theme="light"] {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .text-white {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .text-gray-300 {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .text-gray-400 {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .text-gray-500 {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .text-gray-600 {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] h1, 
+[data-theme="light"] h2, 
+[data-theme="light"] h3, 
+[data-theme="light"] h4, 
+[data-theme="light"] h5, 
+[data-theme="light"] h6 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] p {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .video-title {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .video-meta {
+    color: var(--text-muted) !important;
+}
+
 /* 基础主题样式 */
 body {
     background: var(--bg-primary);
@@ -750,6 +796,50 @@ body {
 #douban-results .video-card:hover {
     transform: translateY(-5px) scale(1.02);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 255, 0.3);
+}
+
+/* 明亮模式额外样式 */
+[data-theme="light"] .history-panel,
+[data-theme="light"] .settings-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .history-panel h3,
+[data-theme="light"] .settings-panel h3 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .glass-modal {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .glass-nav-btn {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="light"] .glass-nav-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .neon-btn {
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+    color: white;
+}
+
+[data-theme="light"] .glass-input {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="light"] .glass-input::placeholder {
+    color: var(--text-muted);
 }
 
 /* 文字溢出处理 */

@@ -5,7 +5,15 @@
     function renderVersion() {
         const p = document.createElement('p');
         p.className = 'text-gray-500 text-sm mt-1 text-center md:text-left';
-        p.textContent = `版本: ${VERSION}`;
+        
+        const link = document.createElement('a');
+        link.href = 'https://github.com/katelya77/DecoTV';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'text-gray-500 hover:text-cyan-400 transition-colors duration-300';
+        link.textContent = `版本: ${VERSION}`;
+        
+        p.appendChild(link);
 
         const footerText = document.querySelector('.footer p.text-gray-500.text-sm');
         if (footerText && footerText.parentElement) {
