@@ -248,7 +248,7 @@ body {
 /* 搜索框霓虹效果 */
 .neon-search-container {
     position: relative;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -499,7 +499,7 @@ body {
     }
     
     .neon-search-container {
-        max-width: 90%;
+        max-width: 95%;
     }
     
     .video-card:hover {
@@ -676,8 +676,7 @@ body {
 
 /* 面板按钮样式优化 */
 .panel-toggle-btn {
-    position: fixed;
-    top: 20px;
+    position: relative;
     z-index: 60;
     background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(0, 255, 255, 0.5);
@@ -686,20 +685,13 @@ body {
     border-radius: 8px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    flex-shrink: 0;
 }
 
 .panel-toggle-btn:hover {
     background: rgba(0, 255, 255, 0.1);
     border-color: rgba(0, 255, 255, 0.8);
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-}
-
-.history-toggle-btn {
-    left: 20px;
-}
-
-.settings-toggle-btn {
-    right: 20px;
 }
 
 /* 主题切换按钮样式 */

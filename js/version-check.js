@@ -1,6 +1,6 @@
 // 静态版本显示（不发起任何网络请求）
 (function () {
-    const VERSION = 'v0.1.0';
+    const VERSION = 'v0.2.0';
 
     function renderVersion() {
         const p = document.createElement('p');
