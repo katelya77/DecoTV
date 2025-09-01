@@ -53,7 +53,6 @@ LibreTV 全局样式
     --card-accent: rgba(0, 204, 255, 0.08); /* 更柔和的霓虹蓝卡片强调色 */
     --card-hover-border: rgba(0, 204, 255, 0.45); /* 悬停边框颜色 */
 }
-}
 
 .page-bg {
     background: linear-gradient(135deg, var(--page-gradient-start) 0%, var(--page-gradient-middle) 50%, var(--page-gradient-end) 100%);
@@ -218,6 +217,7 @@ button, .card-hover {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     line-height: 1.2rem;
     word-break: break-word; /* 允许在任何字符间断行 */
     hyphens: auto; /* 允许断词 */
@@ -247,6 +247,7 @@ button, .card-hover {
 .gradient-text {
     background: linear-gradient(to right, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

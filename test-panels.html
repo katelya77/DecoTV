@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面板功能测试</title>
+    <style>
+        .panel {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .panel.show {
+            transform: translateX(0);
+        }
+        .panel.right {
+            right: 0;
+            left: auto;
+            transform: translateX(100%);
+        }
+        .btn {
+            background: #0080ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .close-btn {
+            background: red;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>面板功能测试</h1>
+    
+    <button class="btn" onclick="toggleHistory()">打开历史面板</button>
+    <button class="btn" onclick="toggleSettings()">打开设置面板</button>
+    
+    <!-- 历史面板 -->
+    <div id="historyPanel" class="panel">
+        <button onclick="closeHistoryPanel()" class="close-btn">×</button>
+        <h3>历史记录</h3>
+        <p>这里是历史记录内容</p>
+    </div>
+    
+    <!-- 设置面板 -->
+    <div id="settingsPanel" class="panel right">
+        <button onclick="closeSettingsPanel()" class="close-btn">×</button>
+        <h3>设置</h3>
+        <p>这里是设置内容</p>
+    </div>
+    
+    <script>
+        function toggleHistory() {
+            console.log('toggleHistory called');
+            const panel = document.getElementById('historyPanel');
+            console.log('Panel:', panel);
+            if (panel) {
+                panel.classList.toggle('show');
+                closeSettingsPanel();
+            }
+        }
+        
+        function toggleSettings() {
+            console.log('toggleSettings called');
+            const panel = document.getElementById('settingsPanel');
+            console.log('Panel:', panel);
+            if (panel) {
+                panel.classList.toggle('show');
+                closeHistoryPanel();
+            }
+        }
+        
+        function closeHistoryPanel() {
+            console.log('closeHistoryPanel called');
+            const panel = document.getElementById('historyPanel');
+            if (panel) {
+                panel.classList.remove('show');
+            }
+        }
+        
+        function closeSettingsPanel() {
+            console.log('closeSettingsPanel called');
+            const panel = document.getElementById('settingsPanel');
+            if (panel) {
+                panel.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>

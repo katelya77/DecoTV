@@ -1,5 +1,6 @@
 // UI相关函数
 function toggleSettings(e) {
+    console.log('toggleSettings called'); // 调试日志
     // 强化的密码保护校验 - 防止绕过
     try {
         if (window.ensurePasswordProtection) {
@@ -21,8 +22,10 @@ function toggleSettings(e) {
     e && e.stopPropagation();
     
     const panel = document.getElementById('settingsPanel');
+    console.log('settingsPanel element:', panel); // 调试日志
     if (panel) {
         const isShowing = panel.classList.contains('show');
+        console.log('Settings panel isShowing:', isShowing); // 调试日志
         panel.classList.toggle('show');
         panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
         
@@ -525,7 +528,6 @@ function clearSearchHistory() {
 }
 
 // 历史面板相关函数 - 已更新为新的drawer系统，见文件末尾
-}
 
 // 格式化时间戳为友好的日期时间格式
 function formatTimestamp(timestamp) {
@@ -1181,18 +1183,22 @@ function showImportBox(fun) {
 
 // 简化的面板管理函数
 function closeHistoryPanel() {
+    console.log('closeHistoryPanel called'); // 调试日志
     const panel = document.getElementById('historyPanel');
     if (panel) {
         panel.classList.remove('show');
         panel.setAttribute('aria-hidden', 'true');
+        console.log('History panel closed'); // 调试日志
     }
 }
 
 function closeSettingsPanel() {
+    console.log('closeSettingsPanel called'); // 调试日志
     const panel = document.getElementById('settingsPanel');
     if (panel) {
         panel.classList.remove('show');
         panel.setAttribute('aria-hidden', 'true');
+        console.log('Settings panel closed'); // 调试日志
     }
 }
 
@@ -1203,6 +1209,7 @@ function closePanels() {
 
 // 简化的toggleHistory函数
 function toggleHistory(e) {
+    console.log('toggleHistory called'); // 调试日志
     // 密码保护校验
     if (window.isPasswordProtected && window.isPasswordVerified) {
         if (window.isPasswordProtected() && !window.isPasswordVerified()) {
@@ -1213,8 +1220,10 @@ function toggleHistory(e) {
     e && e.stopPropagation();
     
     const panel = document.getElementById('historyPanel');
+    console.log('historyPanel element:', panel); // 调试日志
     if (panel) {
         const isShowing = panel.classList.contains('show');
+        console.log('Panel isShowing:', isShowing); // 调试日志
         panel.classList.toggle('show');
         panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
         

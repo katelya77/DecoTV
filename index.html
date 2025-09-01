@@ -51,53 +51,149 @@
         </button>
     </div>
 
-    <!-- 观看历史面板 - 简化版本 -->
+    <!-- 观看历史面板 - 恢复美化版本 -->
     <div id="historyPanel" class="history-panel" aria-label="观看历史" aria-hidden="true">
         <button onclick="closeHistoryPanel()" class="panel-close-btn">×</button>
         <div class="p-4">
-            <h3 class="text-lg font-bold text-white mb-4">📺 观看历史</h3>
-            <div id="historyList">
+            <h3 class="text-xl font-bold mb-4" style="font-family: 'Exo 2', sans-serif; background: linear-gradient(45deg, #00ffff, #ff0080); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">📺 观看历史</h3>
+            
+            <div id="historyList" class="mb-4">
                 <div class="text-center text-gray-500 py-8">暂无观看记录</div>
             </div>
-            <button onclick="clearViewingHistory()" class="neon-btn w-full mt-4">
-                清空历史记录
-            </button>
+            
+            <!-- 快捷按钮区域 -->
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+                <button onclick="resetToHome()" class="glass-nav-btn">
+                    🏠 首页
+                </button>
+                <button onclick="showRandomRecommendations()" class="glass-nav-btn">
+                    🎲 随机推荐
+                </button>
+                <button onclick="showPopularMovies()" class="glass-nav-btn">
+                    🔥 热门影片
+                </button>
+            </div>
+                
+            <!-- 添加最近搜索记录部分 -->
+            <div id="recentSearches" class="mt-6 flex flex-wrap justify-center gap-2" aria-label="最近搜索记录">
+                <!-- 这里会动态插入最近的搜索记录 -->
+            </div>
+            
+            <div class="mt-4 text-center sticky bottom-0 pb-2 pt-2 glass-card">
+                <button onclick="clearViewingHistory()" class="neon-btn w-full text-sm">
+                    🗑️ 清空历史记录
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- 设置面板 - 简化版本 -->
+    <!-- 设置面板 - 恢复美化版本 -->
     <div id="settingsPanel" class="settings-panel" aria-label="设置" aria-hidden="true">
         <button onclick="closeSettingsPanel()" class="panel-close-btn">×</button>
         <div class="p-4">
-            <h3 class="text-lg font-bold text-white mb-4">⚙️ 设置</h3>
+            <h3 class="text-xl font-bold mb-4" style="font-family: 'Exo 2', sans-serif; background: linear-gradient(45deg, #00ffff, #ff0080); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">⚙️ 设置面板</h3>
             
-            <div class="mb-4">
-                <label class="block text-sm text-gray-300 mb-2">数据源</label>
-                <div id="apiCheckboxes" class="max-h-40 overflow-y-auto"></div>
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-sm text-gray-300 mb-2">功能开关</label>
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input type="checkbox" id="yellowFilterToggle" class="mr-2">
-                        <span class="text-sm">黄色内容过滤</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" id="adFilterToggle" class="mr-2">
-                        <span class="text-sm">广告过滤</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" id="doubanToggle" class="mr-2">
-                        <span class="text-sm">豆瓣推荐</span>
-                    </label>
+            <!-- 数据源设置区域 -->
+            <div class="glass-card p-4 mb-4">
+                <label class="block text-sm font-medium text-gray-400 mb-4 pb-2 border-b border-gray-600" style="font-family: 'Exo 2', sans-serif;">🔗 数据源设置</label>
+                
+                <!-- 批量操作按钮 -->
+                <div class="flex space-x-2 mb-4">
+                    <button onclick="selectAllAPIs(true)" class="glass-nav-btn text-xs">全选</button>
+                    <button onclick="selectAllAPIs(false)" class="glass-nav-btn text-xs">全不选</button>
+                    <button onclick="selectAllAPIs(true, true)" class="glass-nav-btn text-xs">全选普通资源</button>
+                </div>
+                
+                <!-- API选择区域 -->
+                <div class="max-h-40 overflow-y-auto glass-card p-3 mb-4">
+                    <div id="apiCheckboxes">
+                        <!-- 这里将动态插入API复选框 -->
+                    </div>
+                </div>
+                
+                <!-- API信息显示 -->
+                <div class="text-xs text-gray-400 flex justify-between items-center">
+                    <span>已选API数量：<span id="selectedApiCount" class="text-cyan-400 font-semibold">0</span></span>
+                    <span id="siteStatus" class="ml-2"></span>
                 </div>
             </div>
             
-            <div class="space-y-2">
-                <button onclick="importConfig()" class="neon-btn w-full">导入配置</button>
-                <button onclick="exportConfig()" class="neon-btn w-full">导出配置</button>
-                <button onclick="clearLocalStorage()" class="neon-btn w-full">清除数据</button>
+            <!-- 自定义API管理区域 -->
+            <div class="glass-card p-4 mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <label class="block text-sm font-medium text-gray-400 pb-2 border-b border-gray-600 flex-1" style="font-family: 'Exo 2', sans-serif;">🔧 自定义API</label>
+                    <button onclick="showAddCustomApiForm()" class="glass-nav-btn w-8 h-8 rounded-full text-center text-lg ml-2 flex-shrink-0">+</button>
+                </div>
+                <div id="customApisList" class="max-h-32 overflow-y-auto mb-3">
+                    <!-- 自定义API将显示在这里 -->
+                </div>
+                
+                <!-- 添加自定义API表单 (默认隐藏) -->
+                <div id="addCustomApiForm" class="hidden mt-3 glass-card p-3">
+                    <input type="text" id="customApiName" placeholder="API名称" class="glass-input w-full mb-2 text-sm" autocomplete="off">
+                    <input type="text" id="customApiUrl" placeholder="https://abc.com" class="glass-input w-full mb-2 text-sm" autocomplete="off">
+                    <input type="text" id="customApiDetail" placeholder="detail地址（可选）" class="glass-input w-full mb-2 text-sm" autocomplete="off">
+                    <div class="flex items-center mb-3">
+                        <input type="checkbox" id="customApiIsAdult" class="form-checkbox h-4 w-4 text-pink-500 bg-transparent border border-gray-400">
+                        <label for="customApiIsAdult" class="ml-2 text-xs text-pink-400">黄色资源站</label>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="addCustomApi()" class="neon-btn text-xs flex-1">添加</button>
+                        <button onclick="cancelAddCustomApi()" class="glass-nav-btn text-xs flex-1">取消</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能开关区域 -->
+            <div class="glass-card p-4 mb-4">
+                <label class="block text-sm font-medium text-gray-400 mb-4 pb-2 border-b border-gray-600" style="font-family: 'Exo 2', sans-serif;">🎛️ 功能开关</label>
+                
+                <!-- 黄色内容过滤开关 -->
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-gray-700">
+                    <div class="flex-1 pr-4">
+                        <label class="text-sm font-medium text-gray-300 block">黄色内容过滤</label>
+                        <p class="text-xs text-gray-500 mt-1">过滤"伦理片"等黄色内容</p>
+                    </div>
+                    <div class="relative inline-block w-12 align-middle select-none flex-shrink-0">
+                        <input type="checkbox" id="yellowFilterToggle" class="opacity-0 absolute w-full h-full cursor-pointer z-10">
+                        <div class="toggle-bg bg-gray-600 w-12 h-6 rounded-full transition-colors duration-300 ease-in-out"></div>
+                        <div class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out"></div>
+                    </div>
+                </div>
+                
+                <!-- 广告过滤开关 -->
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-gray-700">
+                    <div class="flex-1 pr-4">
+                        <label class="text-sm font-medium text-gray-300 block">分片广告过滤</label>
+                        <p class="text-xs text-gray-500 mt-1">关闭可减少旧版浏览器卡顿</p>
+                    </div>
+                    <div class="relative inline-block w-12 align-middle select-none flex-shrink-0">
+                        <input type="checkbox" id="adFilterToggle" class="opacity-0 absolute w-full h-full cursor-pointer z-10">
+                        <div class="toggle-bg bg-gray-600 w-12 h-6 rounded-full transition-colors duration-300 ease-in-out"></div>
+                        <div class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out"></div>
+                    </div>
+                </div>
+                
+                <!-- 豆瓣热门开关 -->
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 pr-4">
+                        <label class="text-sm font-medium text-gray-300 block">豆瓣热门推荐</label>
+                        <p class="text-xs text-gray-500 mt-1">首页显示豆瓣热门影视内容</p>
+                    </div>
+                    <div class="relative inline-block w-12 align-middle select-none flex-shrink-0">
+                        <input type="checkbox" id="doubanToggle" class="opacity-0 absolute w-full h-full cursor-pointer z-10">
+                        <div class="toggle-bg bg-gray-600 w-12 h-6 rounded-full transition-colors duration-300 ease-in-out"></div>
+                        <div class="toggle-dot absolute w-5 h-5 bg-white rounded-full top-0.5 left-0.5 transition-transform duration-300 ease-in-out"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 一般功能区域 -->
+            <div class="glass-card p-4">
+                <label class="block text-sm font-medium text-gray-400 mb-4 pb-2 border-b border-gray-600" style="font-family: 'Exo 2', sans-serif;">🛠️ 一般功能</label>
+                <button onclick="importConfig()" class="neon-btn w-full mb-3 text-sm">📥 导入配置</button>
+                <button onclick="exportConfig()" class="neon-btn w-full mb-3 text-sm">📤 导出配置</button>
+                <button onclick="clearLocalStorage()" class="neon-btn w-full text-sm">🗑️ 清除Cookie</button>
             </div>
         </div>
     </div>
