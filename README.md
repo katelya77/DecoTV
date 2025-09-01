@@ -65,39 +65,154 @@ npm install
 npm start
 ```
 
-📋 **详细部署指南**: [查看 DEPLOYMENT.md](./DEPLOYMENT.md)
-
-## 🔐 密码保护设置
-
-为了保护您的部署实例，**强烈建议**设置 `PASSWORD` 环境变量：
-
-```bash
-PASSWORD=your_secure_password_here
-```
-
-## 🚨 重要声明
-
-- 本项目仅供学习和个人使用，为避免版权纠纷，必须设置PASSWORD环境变量
-- 请勿将部署的实例用于商业用途或公开服务
-- 如因公开分享导致的任何法律问题，用户需自行承担责任
-- 项目开发者不对用户的使用行为承担任何法律责任
-
-## 🔄 同步与升级
-
-Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护。作者可能会直接拉黑所有 Pull Bot 自动发起的同步请求的仓库所有者。
-
-**推荐做法：**
-
-建议在 fork 的仓库中启用本仓库自带的 GitHub Actions 自动同步功能（见 `.github/workflows/sync.yml`）。 
-
-如需手动同步主仓库更新，也可以使用 GitHub 官方的 [Sync fork](https://docs.github.com/cn/github/collaborating-with-issues-and-pull-requests/syncing-a-fork) 功能。
-
-对于更新后可能会出现的错误和异常，在设置中备份配置后，首先清除页面Cookie，然后 Ctrl + F5 刷新页面。再次访问网页检查是否解决问题。
-
-
 ## 📋 详细部署指南
 
-### 🐳 Docker 部署（推荐）
+### 🐳 Docker 部署 详解
+
+#### 快速启动
+```bash
+# 拉取并运行最新版本
+docker run -d -p 3000:3000 --name decotv ghcr.io/katelya77/decotv:latest
+
+# 带密码保护
+docker run -d -p 3000:3000 -e PASSWORD=your_password --name decotv ghcr.io/katelya77/decotv:latest
+```
+
+#### Docker Compose 部署
+创建 `docker-compose.yml`:
+```yaml
+version: '3.8'
+services:
+  decotv:
+    image: ghcr.io/katelya77/decotv:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - PASSWORD=your_secure_password  # 可选
+      - PORT=3000
+    restart: unless-stopped
+    container_name: decotv
+```
+
+启动服务：
+```bash
+docker-compose up -d
+```
+
+### ☁️ 云平台部署 详解
+
+#### Vercel 部署
+1. 点击 Deploy 按钮或访问 [Vercel](https://vercel.com)
+2. 导入 GitHub 仓库：`https://github.com/katelya77/DecoTV`
+3. 配置环境变量（可选）：
+   - `PASSWORD`: 设置访问密码
+4. 点击 Deploy 完成部署
+
+#### Netlify 部署
+1. 点击 Deploy 按钮或访问 [Netlify](https://netlify.com)
+2. 连接 GitHub 账户并选择仓库
+3. 构建设置：
+   - Build command: `npm run build` (如果有)
+   - Publish directory: `./`
+4. 环境变量设置：
+   - `PASSWORD`: 访问密码
+
+#### Render 部署
+1. 访问 [Render](https://render.com) 并连接 GitHub
+2. 选择 `katelya77/DecoTV` 仓库
+3. 配置服务：
+   - Environment: `Node`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+4. 设置环境变量：
+   - `PASSWORD`: 访问密码
+
+#### Railway 部署
+```bash
+# 安装 Railway CLI
+npm install -g @railway/cli
+
+# 登录并部署
+railway login
+railway init
+railway up
+```
+
+#### Heroku 部署
+```bash
+# 安装 Heroku CLI 后
+heroku create your-app-name
+git push heroku main
+heroku config:set PASSWORD=your_password
+```
+
+### 🏠 VPS/服务器部署
+
+#### Ubuntu/Debian 系统
+```bash
+# 更新系统
+sudo apt update && sudo apt upgrade -y
+
+# 安装 Node.js
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 部署项目
+git clone https://github.com/katelya77/DecoTV.git
+cd DecoTV
+npm install
+npm start
+
+# 使用 PM2 守护进程
+npm install -g pm2
+pm2 start server.mjs --name "decotv"
+pm2 startup
+pm2 save
+```
+
+#### CentOS/RHEL 系统
+```bash
+# 安装 Node.js
+curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs
+
+# 其他步骤同上
+```
+
+#### Nginx 反向代理配置
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+### � 移动端部署优化
+
+#### PWA 支持
+项目已内置 PWA 支持，用户可：
+- 添加到主屏幕
+- 离线访问基本功能
+- 类原生应用体验
+
+#### 移动端特性
+- 响应式设计，完美适配手机/平板
+- 触摸优化的界面交互
+- 移动端专用的搜索体验
+
+� **完整部署指南**: [查看 DEPLOYMENT.md](./DEPLOYMENT.md)
 
 #### 方式1：Docker Compose（推荐）
 

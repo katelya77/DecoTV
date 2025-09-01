@@ -13,7 +13,7 @@
 }
 
 .neon-search-container {
-    max-width: 1200px !important;
+    max-width: 600px !important;
     width: 100% !important;
 }
 
@@ -262,7 +262,7 @@ body {
 /* 搜索框霓虹效果 */
 .neon-search-container {
     position: relative;
-    max-width: 1200px !important;
+    max-width: 600px !important;
     margin: 0 auto;
     width: 100%;
 }
@@ -276,8 +276,8 @@ body {
     background: rgba(0, 0, 0, 0.6);
     border: 2px solid var(--neon-primary);
     border-radius: 50px;
-    padding: 20px 40px;
-    font-size: 1.2rem;
+    padding: 16px 30px;
+    font-size: 1.1rem;
     color: white;
     outline: none;
     width: 100%;
@@ -286,7 +286,7 @@ body {
         0 0 10px rgba(0, 255, 255, 0.3),
         inset 0 0 10px rgba(0, 255, 255, 0.1);
     font-family: 'Exo 2', sans-serif;
-    min-width: 500px;
+    min-width: 400px;
 }
 
 .neon-search-box:focus {
