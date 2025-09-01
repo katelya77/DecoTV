@@ -3,6 +3,20 @@
 /* 导入霓虹字体 */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap');
 
+/* 强制覆盖搜索框容器宽度限制 */
+.hero-section {
+    max-width: 100vw !important;
+}
+
+.hero-section .container {
+    max-width: 100% !important;
+}
+
+.neon-search-container {
+    max-width: 1200px !important;
+    width: 100% !important;
+}
+
 :root {
     /* 暗夜主题（默认） */
     --bg-primary: #000000;
@@ -248,16 +262,22 @@ body {
 /* 搜索框霓虹效果 */
 .neon-search-container {
     position: relative;
-    max-width: 900px;
+    max-width: 1200px !important;
     margin: 0 auto;
+    width: 100%;
+}
+
+/* 覆盖Tailwind container限制 */
+.hero-section .container {
+    max-width: none !important;
 }
 
 .neon-search-box {
     background: rgba(0, 0, 0, 0.6);
     border: 2px solid var(--neon-primary);
     border-radius: 50px;
-    padding: 18px 35px;
-    font-size: 1.1rem;
+    padding: 20px 40px;
+    font-size: 1.2rem;
     color: white;
     outline: none;
     width: 100%;
@@ -266,6 +286,7 @@ body {
         0 0 10px rgba(0, 255, 255, 0.3),
         inset 0 0 10px rgba(0, 255, 255, 0.1);
     font-family: 'Exo 2', sans-serif;
+    min-width: 500px;
 }
 
 .neon-search-box:focus {
@@ -499,7 +520,14 @@ body {
     }
     
     .neon-search-container {
-        max-width: 95%;
+        max-width: 98% !important;
+        width: 100%;
+    }
+    
+    .neon-search-box {
+        min-width: unset;
+        font-size: 1rem;
+        padding: 16px 25px;
     }
     
     .video-card:hover {
