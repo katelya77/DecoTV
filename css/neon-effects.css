@@ -551,20 +551,32 @@ body {
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
 }
 
-/* 历史记录和设置面板样式 */
+/* 历史记录和设置面板样式 - 重新设计 */
 .history-panel,
 .settings-panel {
-    width: 380px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 90vw;
+    max-width: 420px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    z-index: 1000;
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    backdrop-filter: blur(20px) !important;
-    background: rgba(0, 0, 0, 0.85) !important;
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    z-index: 50;
+    border-radius: 0 20px 20px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .settings-panel {
+    right: 0;
+    left: auto;
     transform: translateX(100%);
+    border-radius: 20px 0 0 20px;
+    border-left: 1px solid rgba(0, 255, 255, 0.2);
+    border-right: none;
 }
 
 .history-panel.show {
@@ -573,6 +585,61 @@ body {
 
 .settings-panel.show {
     transform: translateX(0) !important;
+}
+
+/* 面板遮罩层 */
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.panel-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 面板标题栏优化 */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.panel-close-btn {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: #ff6b6b;
+    padding: 8px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.panel-close-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: rgba(255, 0, 0, 0.6);
+    transform: scale(1.1);
 }
 
 /* 面板按钮样式优化 */

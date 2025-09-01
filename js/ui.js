@@ -21,10 +21,21 @@ function toggleSettings(e) {
     e && e.stopPropagation();
     
     const panel = document.getElementById('settingsPanel');
+    const overlay = document.getElementById('panelOverlay');
+    
     if (panel) {
         const isShowing = panel.classList.contains('show');
         panel.classList.toggle('show');
         panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
+        
+        // 管理overlay
+        if (overlay) {
+            if (isShowing) {
+                overlay.classList.remove('show');
+            } else {
+                overlay.classList.add('show');
+            }
+        }
         
         // 如果历史记录面板是打开的，则关闭它
         const historyPanel = document.getElementById('historyPanel');
@@ -528,35 +539,7 @@ function clearSearchHistory() {
     }
 }
 
-// 历史面板相关函数
-function toggleHistory(e) {
-    // 密码保护校验
-    if (window.isPasswordProtected && window.isPasswordVerified) {
-        if (window.isPasswordProtected() && !window.isPasswordVerified()) {
-            showPasswordModal && showPasswordModal();
-            return;
-        }
-    }
-    if (e) e.stopPropagation();
-
-    const panel = document.getElementById('historyPanel');
-    if (panel) {
-        const isShowing = panel.classList.contains('show');
-        panel.classList.toggle('show');
-        panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
-
-        // 如果打开了历史记录面板，则加载历史数据
-        if (panel.classList.contains('show')) {
-            loadViewingHistory();
-        }
-
-        // 如果设置面板是打开的，则关闭它
-        const settingsPanel = document.getElementById('settingsPanel');
-        if (settingsPanel && settingsPanel.classList.contains('show')) {
-            settingsPanel.classList.remove('show');
-            settingsPanel.setAttribute('aria-hidden', 'true');
-        }
-    }
+// 历史面板相关函数 - 已更新为新的drawer系统，见文件末尾
 }
 
 // 格式化时间戳为友好的日期时间格式
@@ -1210,3 +1193,92 @@ function showImportBox(fun) {
         fun(fileInput.files[0]);
     });
 }
+
+// 新的面板管理函数
+function closeHistoryPanel() {
+    const panel = document.getElementById('historyPanel');
+    const overlay = document.getElementById('panelOverlay');
+    
+    if (panel && panel.classList.contains('show')) {
+        panel.classList.remove('show');
+        panel.setAttribute('aria-hidden', 'true');
+    }
+    
+    if (overlay && overlay.classList.contains('show')) {
+        overlay.classList.remove('show');
+    }
+}
+
+function closeSettingsPanel() {
+    const panel = document.getElementById('settingsPanel');
+    const overlay = document.getElementById('panelOverlay');
+    
+    if (panel && panel.classList.contains('show')) {
+        panel.classList.remove('show');
+        panel.setAttribute('aria-hidden', 'true');
+    }
+    
+    if (overlay && overlay.classList.contains('show')) {
+        overlay.classList.remove('show');
+    }
+}
+
+function closePanels() {
+    closeHistoryPanel();
+    closeSettingsPanel();
+}
+
+// 更新现有的toggleHistory函数以支持overlay
+function toggleHistory(e) {
+    // 密码保护校验
+    if (window.isPasswordProtected && window.isPasswordVerified) {
+        if (window.isPasswordProtected() && !window.isPasswordVerified()) {
+            showPasswordModal && showPasswordModal();
+            return;
+        }
+    }
+    e && e.stopPropagation();
+    
+    const panel = document.getElementById('historyPanel');
+    const overlay = document.getElementById('panelOverlay');
+    
+    if (panel) {
+        const isShowing = panel.classList.contains('show');
+        panel.classList.toggle('show');
+        panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
+        
+        // 管理overlay
+        if (overlay) {
+            if (isShowing) {
+                overlay.classList.remove('show');
+            } else {
+                overlay.classList.add('show');
+            }
+        }
+        
+        // 如果打开了历史记录面板，则加载历史数据
+        if (panel.classList.contains('show')) {
+            loadViewingHistory();
+        }
+        
+        // 如果设置面板是打开的，则关闭它
+        const settingsPanel = document.getElementById('settingsPanel');
+        if (settingsPanel && settingsPanel.classList.contains('show')) {
+            settingsPanel.classList.remove('show');
+            settingsPanel.setAttribute('aria-hidden', 'true');
+        }
+    }
+}
+
+// 页面初始化时添加overlay点击事件监听器
+document.addEventListener('DOMContentLoaded', function() {
+    // 添加overlay点击关闭事件
+    const overlay = document.getElementById('panelOverlay');
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closePanels();
+            }
+        });
+    }
+});

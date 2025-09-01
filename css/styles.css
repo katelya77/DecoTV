@@ -45,25 +45,30 @@ LibreTV 全局样式
     --text-color: #e6f2ff;          /* 柔和的蓝白色文本 */
     --text-muted: #8599b2;          /* 淡蓝灰色次级文本 */
     --border-color: rgba(0, 204, 255, 0.15);
-    --page-gradient-start: #0f1622; /* 深蓝黑起始色 */
-    --page-gradient-end: #192231;   /* 深靛蓝结束色 */
-    --card-gradient-start: #121b29; /* 卡片起始色 */
-    --card-gradient-end: #1c2939;   /* 卡片结束色 */
-    --card-accent: rgba(0, 204, 255, 0.12); /* 霓虹蓝卡片强调色 */
-    --card-hover-border: rgba(0, 204, 255, 0.5); /* 悬停边框颜色 */
+    --page-gradient-start: #0a0e17; /* 更深的蓝黑起始色 */
+    --page-gradient-middle: #131b28; /* 中间过渡色 */
+    --page-gradient-end: #1a242f;   /* 深靛蓝结束色 */
+    --card-gradient-start: #0f1826; /* 卡片起始色 */
+    --card-gradient-end: #1a2532;   /* 卡片结束色 */
+    --card-accent: rgba(0, 204, 255, 0.08); /* 更柔和的霓虹蓝卡片强调色 */
+    --card-hover-border: rgba(0, 204, 255, 0.45); /* 悬停边框颜色 */
+}
 }
 
 .page-bg {
-    background: linear-gradient(180deg, var(--page-gradient-start), var(--page-gradient-end));
+    background: linear-gradient(135deg, var(--page-gradient-start) 0%, var(--page-gradient-middle) 50%, var(--page-gradient-end) 100%);
     min-height: 100vh;
-    /* 柔和赛博点状背景 */
+    /* 柔和的网格点状背景和径向渐变 */
     background-image: 
-        linear-gradient(180deg, var(--page-gradient-start), var(--page-gradient-end)),
-        radial-gradient(circle at 25px 25px, rgba(0, 204, 255, 0.04) 2px, transparent 3px),
-        radial-gradient(circle at 75px 75px, rgba(255, 60, 120, 0.02) 1px, transparent 2px),
-        radial-gradient(circle at 50px 50px, rgba(150, 255, 250, 0.015) 1px, transparent 2px);
+        linear-gradient(135deg, var(--page-gradient-start) 0%, var(--page-gradient-middle) 50%, var(--page-gradient-end) 100%),
+        radial-gradient(circle at 30% 20%, rgba(0, 204, 255, 0.06) 0%, transparent 70%),
+        radial-gradient(circle at 70% 80%, rgba(255, 60, 120, 0.04) 0%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(150, 255, 250, 0.03) 0%, transparent 60%),
+        radial-gradient(circle at 25px 25px, rgba(0, 204, 255, 0.03) 1px, transparent 2px),
+        radial-gradient(circle at 75px 75px, rgba(255, 60, 120, 0.015) 1px, transparent 2px);
     background-blend-mode: normal;
-    background-size: cover, 100px 100px, 50px 50px, 75px 75px;
+    background-size: cover, 800px 600px, 600px 800px, 1000px 1000px, 100px 100px, 50px 50px;
+    background-position: center, 0% 0%, 100% 100%, center, 0 0, 25px 25px;
 }
 
 /* Light theme variables */
@@ -75,20 +80,25 @@ LibreTV 全局样式
     --text-color: #0b1220;
     --text-muted: #4b5563;
     --border-color: rgba(37, 99, 235, 0.2);
-    --page-gradient-start: #f8fafc;
-    --page-gradient-end: #eef2f7;
+    --page-gradient-start: #f0f4f8;
+    --page-gradient-middle: #e8eef5;
+    --page-gradient-end: #dde7f0;
     --card-gradient-start: #ffffff;
-    --card-gradient-end: #f4f7fb;
-    --card-accent: rgba(37, 99, 235, 0.08);
-    --card-hover-border: rgba(37, 99, 235, 0.45);
+    --card-gradient-end: #f8fafc;
+    --card-accent: rgba(37, 99, 235, 0.06);
+    --card-hover-border: rgba(37, 99, 235, 0.4);
 }
 
 .theme-light .page-bg {
     background-image:
-        linear-gradient(180deg, var(--page-gradient-start), var(--page-gradient-end)),
-        radial-gradient(circle at 25px 25px, rgba(37, 99, 235, 0.06) 2px, transparent 3px),
-        radial-gradient(circle at 75px 75px, rgba(249, 115, 22, 0.04) 1px, transparent 2px),
-        radial-gradient(circle at 50px 50px, rgba(37, 99, 235, 0.025) 1px, transparent 2px);
+        linear-gradient(135deg, var(--page-gradient-start) 0%, var(--page-gradient-middle) 50%, var(--page-gradient-end) 100%),
+        radial-gradient(circle at 30% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 70%),
+        radial-gradient(circle at 70% 80%, rgba(249, 115, 22, 0.06) 0%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 60%),
+        radial-gradient(circle at 25px 25px, rgba(37, 99, 235, 0.04) 1px, transparent 2px),
+        radial-gradient(circle at 75px 75px, rgba(249, 115, 22, 0.03) 1px, transparent 2px);
+    background-size: cover, 800px 600px, 600px 800px, 1000px 1000px, 100px 100px, 50px 50px;
+    background-position: center, 0% 0%, 100% 100%, center, 0 0, 25px 25px;
 }
 
 /* Basic element adjustments in light mode */
@@ -119,16 +129,31 @@ button, .card-hover {
 
 /* Glassmorphism */
 .glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.05);
-    backdrop-filter: saturate(160%) blur(14px);
-    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.03);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.05);
+    border-color: rgba(0, 204, 255, 0.2);
+}
+
 .theme-light .glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.35));
-    border-color: rgba(0,0,0,0.06);
-    box-shadow: 0 10px 30px rgba(16,24,40,0.08), inset 0 0 0 1px rgba(0,0,0,0.04);
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5));
+    border-color: rgba(0,0,0,0.04);
+    box-shadow: 0 12px 40px rgba(16,24,40,0.06), inset 0 0 0 1px rgba(0,0,0,0.02);
+}
+
+.theme-light .glass-card:hover {
+    box-shadow: 0 16px 50px rgba(16,24,40,0.1), inset 0 0 0 1px rgba(0,0,0,0.04);
+    border-color: rgba(37, 99, 235, 0.15);
 }
 
 /* Neon buttons and input focus glow */
