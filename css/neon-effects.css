@@ -4,27 +4,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap');
 
 :root {
+    /* 暗夜主题（默认） */
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #111111;
+    --text-primary: #ffffff;
+    --text-secondary: #e5e5e5;
+    --text-muted: #888888;
+    --border-color: #333333;
+    
     /* 霓虹配色 */
     --neon-primary: #00ffff;
     --neon-secondary: #ff0080;
     --neon-accent: #ffff00;
     --neon-purple: #8000ff;
     --neon-green: #00ff00;
+    --neon-primary-rgb: 0, 255, 255;
+    --neon-secondary-rgb: 255, 0, 128;
     
     /* 玻璃效果颜色 */
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --glass-shadow: rgba(0, 0, 0, 0.3);
+    --glass-bg: rgba(0, 0, 0, 0.85);
+    --glass-border: rgba(0, 255, 255, 0.3);
+    --glass-shadow: rgba(0, 0, 0, 0.5);
     
-    /* 暗色背景 */
-    --dark-bg: #0a0a0a;
-    --dark-surface: #1a1a1a;
-    --dark-surface-2: #2a2a2a;
+    /* 粒子效果 */
+    --particle-color: rgba(0, 255, 255, 0.6);
 }
 
-/* 全局背景更新 */
+/* 明亮主题 */
+[data-theme="light"] {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    
+    /* 明亮主题霓虹色彩 */
+    --neon-primary: #3b82f6;
+    --neon-secondary: #ec4899;
+    --neon-accent: #f59e0b;
+    --neon-purple: #8b5cf6;
+    --neon-green: #10b981;
+    --neon-primary-rgb: 59, 130, 246;
+    --neon-secondary-rgb: 236, 72, 153;
+    
+    /* 玻璃效果颜色 */
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(59, 130, 246, 0.3);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    
+    /* 粒子效果 */
+    --particle-color: rgba(59, 130, 246, 0.4);
+}
+
+/* 基础主题样式 */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
 .page-bg {
-    background: radial-gradient(ellipse at top, #0d1b2a 0%, #0a0a0a 100%);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    min-height: 100vh;
+    transition: background 0.3s ease;
     position: relative;
     overflow-x: hidden;
 }
@@ -511,7 +556,11 @@
 .settings-panel {
     width: 380px;
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(20px) !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    z-index: 50;
 }
 
 .settings-panel {
@@ -519,11 +568,125 @@
 }
 
 .history-panel.show {
-    transform: translateX(0);
+    transform: translateX(0) !important;
 }
 
 .settings-panel.show {
-    transform: translateX(0);
+    transform: translateX(0) !important;
+}
+
+/* 面板按钮样式优化 */
+.panel-toggle-btn {
+    position: fixed;
+    top: 20px;
+    z-index: 60;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.panel-toggle-btn:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.history-toggle-btn {
+    left: 20px;
+}
+
+.settings-toggle-btn {
+    right: 20px;
+}
+
+/* 主题切换按钮样式 */
+.theme-toggle-btn {
+    position: relative;
+}
+
+.theme-icon-sun,
+.theme-icon-moon {
+    transition: all 0.3s ease;
+}
+
+[data-theme="light"] .theme-icon-sun {
+    display: block !important;
+}
+
+[data-theme="light"] .theme-icon-moon {
+    display: none !important;
+}
+
+/* 更新玻璃卡片样式以适应主题 */
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+}
+
+/* 主容器样式优化 */
+.hero-section {
+    background: var(--bg-primary);
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(var(--neon-primary-rgb, 0, 255, 255), 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(var(--neon-secondary-rgb, 255, 0, 128), 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* 移除过于强烈的渐变边框 */
+.gradient-top-border {
+    border-top: 1px solid var(--border-color);
+}
+
+/* 文本颜色适配主题 */
+.text-white {
+    color: var(--text-primary) !important;
+}
+
+.text-gray-300 {
+    color: var(--text-secondary) !important;
+}
+
+.text-gray-400,
+.text-gray-500 {
+    color: var(--text-muted) !important;
+}
+
+/* 明亮主题下的特殊处理 */
+[data-theme="light"] .glass-card {
+    box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+[data-theme="light"] .neon-search-box {
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .panel-toggle-btn {
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+    color: var(--text-primary);
 }
 
 /* 模态框增强 */

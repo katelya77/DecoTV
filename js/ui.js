@@ -19,8 +19,20 @@ function toggleSettings(e) {
     }
     // 阻止事件冒泡，防止触发document的点击事件
     e && e.stopPropagation();
+    
     const panel = document.getElementById('settingsPanel');
-    panel.classList.toggle('show');
+    if (panel) {
+        const isShowing = panel.classList.contains('show');
+        panel.classList.toggle('show');
+        panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
+        
+        // 如果历史记录面板是打开的，则关闭它
+        const historyPanel = document.getElementById('historyPanel');
+        if (historyPanel && historyPanel.classList.contains('show')) {
+            historyPanel.classList.remove('show');
+            historyPanel.setAttribute('aria-hidden', 'true');
+        }
+    }
 }
 
 // 主题切换：Dark / Light
@@ -30,9 +42,27 @@ function toggleSettings(e) {
     function applyTheme(theme) {
         const root = document.documentElement;
         if (theme === 'light') {
-            root.classList.add('theme-light');
+            root.setAttribute('data-theme', 'light');
         } else {
-            root.classList.remove('theme-light');
+            root.removeAttribute('data-theme');
+        }
+        
+        // 更新主题图标
+        updateThemeIcon(theme);
+    }
+
+    function updateThemeIcon(theme) {
+        const sunIcon = document.querySelector('.theme-icon-sun');
+        const moonIcon = document.querySelector('.theme-icon-moon');
+        
+        if (sunIcon && moonIcon) {
+            if (theme === 'light') {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
         }
     }
 
@@ -47,6 +77,45 @@ function toggleSettings(e) {
         localStorage.setItem(THEME_KEY, theme);
         applyTheme(theme);
     }
+
+    // 全局主题切换函数
+    window.toggleTheme = function() {
+        const currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    };
+
+    // 页面加载时应用主题
+    document.addEventListener('DOMContentLoaded', function() {
+        const theme = getPreferredTheme();
+        applyTheme(theme);
+        
+        // 确保侧边栏初始状态为隐藏
+        initializePanels();
+    });
+
+    // 初始化面板状态
+    function initializePanels() {
+        const historyPanel = document.getElementById('historyPanel');
+        const settingsPanel = document.getElementById('settingsPanel');
+        
+        if (historyPanel) {
+            historyPanel.classList.remove('show');
+            historyPanel.setAttribute('aria-hidden', 'true');
+        }
+        
+        if (settingsPanel) {
+            settingsPanel.classList.remove('show');
+            settingsPanel.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    // 导出函数供外部使用
+    window.themeManager = {
+        setTheme,
+        getPreferredTheme,
+        toggleTheme: window.toggleTheme
+    };
 
     function injectToggle() {
         const settingsPanel = document.getElementById('settingsPanel');
@@ -472,7 +541,9 @@ function toggleHistory(e) {
 
     const panel = document.getElementById('historyPanel');
     if (panel) {
+        const isShowing = panel.classList.contains('show');
         panel.classList.toggle('show');
+        panel.setAttribute('aria-hidden', isShowing ? 'true' : 'false');
 
         // 如果打开了历史记录面板，则加载历史数据
         if (panel.classList.contains('show')) {
@@ -483,6 +554,7 @@ function toggleHistory(e) {
         const settingsPanel = document.getElementById('settingsPanel');
         if (settingsPanel && settingsPanel.classList.contains('show')) {
             settingsPanel.classList.remove('show');
+            settingsPanel.setAttribute('aria-hidden', 'true');
         }
     }
 }
