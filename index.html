@@ -21,7 +21,7 @@
     <script defer src="js/effects.js"></script>
 </head>
 <body class="page-bg text-white">
-    <!-- 将历史记录按钮移到左上角，并缩小尺寸 -->
+    <!-- 左上角历史记录按钮 -->
     <div class="fixed top-4 left-4 z-50">
         <button onclick="toggleHistory(event)" class="panel-toggle-btn history-toggle-btn" aria-label="观看历史">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -30,8 +30,8 @@
         </button>
     </div>
 
-    <!-- 设置按钮保留在右上角，并缩小尺寸 -->
-    <div class="fixed top-4 right-4 z-50 flex gap-2">
+    <!-- 右上角按钮组 - 对称布局 -->
+    <div class="fixed top-4 right-4 z-50 flex gap-4">
         <!-- 主题切换按钮 -->
         <button onclick="toggleTheme()" class="panel-toggle-btn theme-toggle-btn" aria-label="切换主题" title="切换暗夜/明亮模式">
             <svg class="w-5 h-5 theme-icon-sun hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
